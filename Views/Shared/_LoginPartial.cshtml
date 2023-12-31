@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <a  class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-light" asp-controller="Employers">Employee</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-light" asp-controller="Users">Users</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-light" asp-controller="Books">Books</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-light" asp-controller="Borrows">Borrows</a>
+    </li>
+    <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-danger text-dark">Logout</button>
+            </form>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login"><input type="button" value="Login" class="btn btn-dark" style="padding-left:15px; padding-right: 15px;"/></a>
+    </li>
+}
+</ul>

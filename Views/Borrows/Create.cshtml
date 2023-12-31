@@ -1,0 +1,95 @@
+﻿@model LibraryApp.Models.Book
+
+@{
+    ViewData["Title"] = "Create";
+    User? user = ViewBag.UserData;
+}
+
+<h1>New Borrow</h1>
+<h4>Borrow</h4>
+<div class="row">
+    <div class="col-md-4">
+        <hr />
+        <h4>Book's Information</h4>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.Title" class="control-label">Book's Title</label>
+                <input asp-for="@Model.Title" class="form-control" value="@Model.Title" disabled />
+                <span validation-for="BookTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Author" class="control-label">Author</label>
+                <input asp-for="@Model.Author" class="form-control" value="@Model.Author" disabled />
+                <span validation-for="Autor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="InitialDate" class="control-label">Borrow's Date</label>
+                <input for="InitialDate" class="form-control" value=@DateTime.Now disabled/>
+                <span validation-for="InitialDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="LastDate" class="control-label">Devolution's Date</label>
+                <input for="LastDate" class="form-control" value=@DateTime.Now.AddDays(15) disabled/>
+                <span validation-for="LastDate" class="text-danger"></span>
+            </div>
+            @if (user != null && !user.HasBorrow)
+            {
+                <div class="form-group">
+                    <input type="submit" value="Borrow" class="btn btn-success" style="margin-top: 20px" />
+                </div>
+            }
+        </form>
+    </div>
+    <div class="col-md-4">
+        <hr />
+        <h4>User's Information</h4>
+        <form asp-action="Search" method="post">
+            <div class="form-group">
+                <label for="UserId" class="control-label">User Id</label>
+                <div style="display:flex">
+                    <input name="bookId" class="form-control" style="display:none" value="@Model.BookId" />
+                    <input name="userId" class="form-control" />
+                    <input type="submit" class="btn btn-info" value="Search" style="margin-left: 5px">
+                </div>
+                <span validation-for="UserId" class="text-danger"></span>
+            </div>
+            @if(user != null)
+            {
+                <div class="form-group">
+                    <label asp-for="@user.Name" class="control-label">User's Name</label>
+                    <input asp-for="@user!.Name" class="form-control" value="@user!.Name" disabled />
+                    <span validation-for="LastDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@user.Email" class="control-label">User's Email</label>
+                    <input asp-for="@user.Email" class="form-control" disabled />
+                    <span validation-for="LastDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@user.PhoneNumber" class="control-label">User's Phone</label>
+                    <input asp-for="@user.PhoneNumber" class="form-control" disabled />
+                    <span validation-for="LastDate" class="text-danger"></span>
+                </div>
+                @if (user != null && user.HasBorrow)
+                {
+                    <div class="col-md-4" style="text-align:center">
+                        <p>User has a borrow. Please, check <a asp-action="Index">here</a></p>
+                    </div>
+                }
+            }
+            else
+            {
+                <p style="text-align:center">User not found.</p>
+            }
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,143 @@
+﻿@model IEnumerable<LibraryApp.Models.Book>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Library App System</h1>
+    <div class="col-md-6" style="margin: 20px auto">
+        <form asp-action="Search" method="post">
+            <label>Search for a Book</label>
+            <div style="display: flex; flex-direction: row; align-items: center;">
+                <input name="title" type="search" class="input-group input-group-lg" />
+                <input type="submit" value="Search" class="btn btn-dark" style="padding:.2rem 0.75rem" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-8" style="margin: 20px auto">
+        @if (Model == null || !Model.Any())
+        {
+            <p>No books found</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.First().Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.First().Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.First().Author)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.First().Year)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.First().Edition)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.First().Status)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        @if(item.Status == "Available")
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Author)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Year)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Edition)
+                                </td>
+                                <td style="color:green">
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+                                <td>
+                                    <form asp-action="Borrow" method="post">
+                                        <input style="display:none;" asp-for="First().BookId" value=@item.BookId/>
+                                        <input type="submit" value="Borrowing" class="btn btn-success" />
+                                    </form>
+                                </td>
+                                <td>
+                                    <a asp-controller=""><input type="button" value="Reserving" class="btn btn-warning" /></a>
+                                </td>
+                            </tr>
+                        }
+                        else if(item.Status == "Reserved")
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Author)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Year)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Edition)
+                                </td>
+                                <td style="color:yellow">
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+                                <td>
+                                    <a asp-controller="Borrows" asp-action="Create"><input type="button" value="Borrowing" class="btn btn-success" /></a>
+                                </td>
+                                <td>
+                                    <a asp-controller=""><input type="button" value="Unreserve" class="btn btn-danger" /></a>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Author)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Year)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Edition)
+                                </td>
+                                <td style="color:red">
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+                                <td>
+                                    <a asp-controller="Borrows" asp-action="Delete"><input type="button" value="Devolve" class="btn btn-danger" /></a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
