@@ -9,16 +9,16 @@
         <a  class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-light" asp-controller="Employers">Employee</a>
+           <a class="nav-link text-light" asp-controller="Employers" asp-action="Index">Employee</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-light" asp-controller="Users">Users</a>
+            <a class="nav-link text-light" asp-controller="Users" asp-action="Index">Users</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-light" asp-controller="Books">Books</a>
+            <a class="nav-link text-light" asp-controller="Books" asp-action="Index">Books</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-light" asp-controller="Borrows">Borrows</a>
+            <a class="nav-link text-light" asp-controller="Borrows" asp-action="Index">Borrows</a>
     </li>
     <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

@@ -34,12 +34,20 @@ namespace LibraryApp.Controllers
         // GET: Employers
         public async Task<IActionResult> Index()
         {
-            return _signInManager.IsSignedIn(User) ? View(await _context.Employer.ToListAsync()) : Redirect("/Home");
+            var user = await _userManager.GetUserAsync(User);
+            var email = user!.Email;
+            Employer? e = await _context.Employer.FirstOrDefaultAsync(m => m.Email == email);
+            bool isAdmin = e!.IsAdmin;
+            return _signInManager.IsSignedIn(User) && isAdmin ? View(await _context.Employer.ToListAsync()) : Redirect("/Home");
         }
 
         // GET: Employers/Details/5
         public async Task<IActionResult> Details(long? id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            var email = user!.Email;
+            Employer? e = await _context.Employer.FirstOrDefaultAsync(m => m.Email == email);
+            bool isAdmin = e!.IsAdmin;
             if (id == null)
             {
                 return NotFound();
@@ -52,13 +60,17 @@ namespace LibraryApp.Controllers
                 return NotFound();
             }
 
-            return _signInManager.IsSignedIn(User) ? View(employer) : Redirect("/Home");
+            return _signInManager.IsSignedIn(User) && isAdmin ? View(employer) : Redirect("/Home");
         }
 
         // GET: Employers/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return _signInManager.IsSignedIn(User) ? View() : Redirect("/Home");
+            var user = await _userManager.GetUserAsync(User);
+            var email = user!.Email;
+            Employer? e = await _context.Employer.FirstOrDefaultAsync(m => m.Email == email);
+            bool isAdmin = e!.IsAdmin;
+            return _signInManager.IsSignedIn(User) && isAdmin ? View() : Redirect("/Home");
         }
 
         // POST: Employers/Create
@@ -68,6 +80,10 @@ namespace LibraryApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Email,PhoneNumber,IsAdmin")] Employer employer)
         {
+            var u = await _userManager.GetUserAsync(User);
+            var email = u!.Email;
+            Employer? e = await _context.Employer.FirstOrDefaultAsync(m => m.Email == email);
+            bool isAdmin = e!.IsAdmin;
             if (ModelState.IsValid)
             {
                 var user = new IdentityUser { Email = employer.Email };
@@ -87,12 +103,16 @@ namespace LibraryApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return _signInManager.IsSignedIn(User) ? View(employer) : Redirect("/Home");
+            return _signInManager.IsSignedIn(User) && isAdmin ? View(employer) : Redirect("/Home");
         }
 
         // GET: Employers/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            var email = user!.Email;
+            Employer? e = await _context.Employer.FirstOrDefaultAsync(m => m.Email == email);
+            bool isAdmin = e!.IsAdmin;
             if (id == null)
             {
                 return NotFound();
@@ -103,7 +123,7 @@ namespace LibraryApp.Controllers
             {
                 return NotFound();
             }
-            return _signInManager.IsSignedIn(User) ? View(employer) : Redirect("/Home");
+            return _signInManager.IsSignedIn(User) && isAdmin ? View(employer) : Redirect("/Home");
         }
 
         // POST: Employers/Edit/5
@@ -113,6 +133,10 @@ namespace LibraryApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Email,PhoneNumber,Role")] Employer employer)
         {
+            var user = await _userManager.GetUserAsync(User);
+            var email = user!.Email;
+            Employer? e = await _context.Employer.FirstOrDefaultAsync(m => m.Email == email);
+            bool isAdmin = e!.IsAdmin;
             if (id != employer.Id)
             {
                 return NotFound();
@@ -138,12 +162,16 @@ namespace LibraryApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return _signInManager.IsSignedIn(User) ? View(employer) : Redirect("/Home");
+            return _signInManager.IsSignedIn(User) && isAdmin ? View(employer) : Redirect("/Home");
         }
 
         // GET: Employers/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            var email = user!.Email;
+            Employer? e = await _context.Employer.FirstOrDefaultAsync(m => m.Email == email);
+            bool isAdmin = e!.IsAdmin;
             if (id == null)
             {
                 return NotFound();
@@ -156,7 +184,7 @@ namespace LibraryApp.Controllers
                 return NotFound();
             }
 
-            return _signInManager.IsSignedIn(User) ? View(employer) : Redirect("/Home");
+            return _signInManager.IsSignedIn(User) && isAdmin ? View(employer) : Redirect("/Home");
         }
 
         // POST: Employers/Delete/5
@@ -164,6 +192,10 @@ namespace LibraryApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            var email = user!.Email;
+            Employer? e = await _context.Employer.FirstOrDefaultAsync(m => m.Email == email);
+            bool isAdmin = e!.IsAdmin;
             var employer = await _context.Employer.FindAsync(id);
             if (employer != null)
             {
@@ -171,7 +203,7 @@ namespace LibraryApp.Controllers
                 await _context.SaveChangesAsync();
             }
             
-            return _signInManager.IsSignedIn(User) ? RedirectToAction(nameof(Index)) : Redirect("/Home");
+            return _signInManager.IsSignedIn(User) && isAdmin ? RedirectToAction(nameof(Index)) : Redirect("/Home");
         }
 
         private bool EmployerExists(long id)

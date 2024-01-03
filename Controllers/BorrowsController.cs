@@ -68,15 +68,27 @@ namespace LibraryApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,InitialDate,LastDate")] Borrow borrow)
+        public async Task<IActionResult> CreateBorrow(long UserId, string BookTitle, DateTime InitialDate, DateTime LastDate)
         {
+            Debug.WriteLine(UserId);
+            Debug.WriteLine(BookTitle);
+            Debug.WriteLine(InitialDate);
+            Debug.WriteLine(LastDate);
+
             if (ModelState.IsValid)
             {
-                _context.Add(borrow);
+                Borrow borrow = new Borrow
+                {
+                    UserId = UserId,
+                    BookTitle = BookTitle,
+                    InitialDate = InitialDate,
+                    LastDate = LastDate
+                };
+                _context.Borrow.Add(borrow);
                 await _context.SaveChangesAsync();
                 return _signInManager.IsSignedIn(User) ? RedirectToAction(nameof(Index)) : Redirect("/Home");
             }
-            return _signInManager.IsSignedIn(User) ? View(borrow) : Redirect("/Home");
+            return _signInManager.IsSignedIn(User) ? RedirectToAction("Index") : Redirect("/Home");
         }
 
         // GET: Borrows/Edit/5

@@ -4,26 +4,33 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>Borrow's Control</h1>
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BookTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.InitialDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastDate)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.InitialDate)
             </td>
@@ -31,9 +38,12 @@
                 @Html.DisplayFor(modelItem => item.LastDate)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    @if(DateTime.Now == item.LastDate)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id"><input type="button" class="btn btn-warning" value="Renew" /></a>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.Id"><input type="button" class="btn btn-info" value="Detail" /></a>
+                    <a asp-action="Delete" asp-route-id="@item.Id"><input type="button" class="btn btn-danger" value="Delete" /></a>
             </td>
         </tr>
 }
