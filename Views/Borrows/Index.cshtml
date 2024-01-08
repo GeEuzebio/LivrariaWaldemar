@@ -9,7 +9,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.BookTitle)
+                @Html.DisplayNameFor(model => model.BookId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.UserId)
@@ -26,16 +26,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.BookTitle)
+                @Html.DisplayFor(modelItem => item.BookId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UserId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.InitialDate)
+                    @Html.DisplayFor(modelItem => item.InitialDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LastDate)
+                    @Html.DisplayFor(modelItem => item.LastDate)
             </td>
             <td>
                     @if(DateTime.Now == item.LastDate)

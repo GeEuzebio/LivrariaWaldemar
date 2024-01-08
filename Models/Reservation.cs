@@ -1,6 +1,6 @@
 ﻿namespace LibraryApp.Models
 {
-    public class Borrow
+    public class Reservation
     {
         public long Id { get; set; }
         public long UserId { get; set; }

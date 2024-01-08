@@ -14,5 +14,6 @@ namespace LibraryApp.Data
         public DbSet<LibraryApp.Models.Employer> Employer { get; set; } = default!;
         public DbSet<LibraryApp.Models.User> User { get; set; } = default!;
         public DbSet<LibraryApp.Models.Borrow> Borrow { get; set; } = default!;
+        public DbSet<LibraryApp.Models.Reservation> Reservation { get; set; } = default!;
     }
 }

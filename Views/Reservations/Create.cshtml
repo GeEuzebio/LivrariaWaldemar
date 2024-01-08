@@ -3,15 +3,16 @@
 @{
     ViewData["Title"] = "Create";
     User? user = ViewBag.UserData;
+    DateTime? initialDate = ViewBag.InitialDate;
 }
 
-<h1>New Borrow</h1>
-<h4>Borrow</h4>
+<h1>New Reservation</h1>
+<h4>Reservation</h4>
 <div class="row">
     <div class="col-md-4">
         <hr />
         <h4>Book's Information</h4>
-        <form asp-action="CreateBorrow">
+        <form asp-action="CreateReservation">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="@Model.Title" class="control-label">Book's Title</label>
@@ -24,22 +25,22 @@
                 <span validation-for="Autor" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label for="InitialDate" class="control-label">Borrow's Date</label>
-                <input name="InitialDate" class="form-control" value=@DateTime.Now readonly/>
+                <label for="InitialDate" class="control-label">Initial Date</label>
+                <input name="InitialDate" class="form-control" value=@initialDate readonly />
                 <span validation-for="InitialDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label for="LastDate" class="control-label">Devolution's Date</label>
-                <input name="LastDate" class="form-control" value=@DateTime.Now.AddDays(15) readonly/>
+                <label for="LastDate" class="control-label">Final Date</label>
+                <input name="LastDate" class="form-control" value=@initialDate.Value.AddDays(2) readonly />
                 <span validation-for="LastDate" class="text-danger"></span>
             </div>
             @if (user != null && !user.HasBorrow)
             {
                 <div class="form-group">
-                    <input name="BookId" value="@Model.BookId" style="display:none"/>
+                    <input name="BookId" value="@Model.BookId" style="display:none" />
                     <input name="BookTitle" value="@Model.Title" style="display:none" />
                     <input name="UserId" value="@user.UserId" style="display:none" />
-                    <input type="submit" value="Borrow" class="btn btn-success" style="margin-top: 20px" />
+                    <input type="submit" value="Reserve" class="btn btn-success" style="margin-top: 20px" />
                 </div>
             }
         </form>
@@ -57,7 +58,7 @@
                 </div>
                 <span validation-for="UserId" class="text-danger"></span>
             </div>
-            @if(user != null)
+            @if (user != null)
             {
                 <div class="form-group">
                     <label asp-for="@user.Name" class="control-label">User's Name</label>
@@ -94,5 +95,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -48,7 +48,7 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        @if(item.Status == "Available")
+                        @if(item.Status == Status.Available)
                         {
                             <tr>
                                 <td>
@@ -75,12 +75,9 @@
                                         <input type="submit" value="Borrowing" class="btn btn-success" />
                                     </form>
                                 </td>
-                                <td>
-                                    <a asp-controller=""><input type="button" value="Reserving" class="btn btn-warning" /></a>
-                                </td>
                             </tr>
                         }
-                        else if(item.Status == "Reserved")
+                        else if(item.Status == Status.Reserved)
                         {
                             <tr>
                                 <td>
@@ -102,10 +99,16 @@
                                     @Html.DisplayFor(modelItem => item.Status)
                                 </td>
                                 <td>
-                                    <a asp-controller="Borrows" asp-action="Create"><input type="button" value="Borrowing" class="btn btn-success" /></a>
+                                    <form asp-action="Borrow" method="post">
+                                        <input style="display:none;" asp-for="First().BookId" value=@item.BookId />
+                                        <input type="submit" value="Borrowing" class="btn btn-success" />
+                                    </form>
                                 </td>
                                 <td>
-                                    <a asp-controller=""><input type="button" value="Unreserve" class="btn btn-danger" /></a>
+                                    <form asp-action="ViewReservation" method="post">
+                                        <input style="display: none;" name="id" value="@item.BookId" />
+                                        <input type="submit" value="View Reservation" class="btn btn-info" />
+                                    </form>
                                 </td>
                             </tr>
                         }
@@ -131,7 +134,16 @@
                                     @Html.DisplayFor(modelItem => item.Status)
                                 </td>
                                 <td>
-                                    <a asp-controller="Borrows" asp-action="Delete"><input type="button" value="Devolve" class="btn btn-danger" /></a>
+                                    <form asp-action="Devolve" method="post">
+                                        <input style="display:none;" name="id" value="@item.BookId" />
+                                        <input type="submit" value="Devolve" class="btn btn-danger" />
+                                    </form>
+                                </td>
+                                <td>
+                                    <form asp-action="Reserve" method="post">
+                                        <input style="display:none;" name="id" value="@item.BookId" />
+                                        <input type="submit" value="Reserving" class="btn btn-warning" />
+                                    </form>
                                 </td>
                             </tr>
                         }

@@ -1,5 +1,6 @@
 using LibraryApp.Data;
 using LibraryApp.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Common;
@@ -11,12 +12,13 @@ namespace LibraryApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
-        private Book book = new Book();
+        private readonly SignInManager<IdentityUser> _signInResult;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, SignInManager<IdentityUser> signInManager)
         {
             _logger = logger;
             _context = context;
+            _signInResult = signInManager;
         }
 
         public IActionResult Index()
@@ -38,6 +40,30 @@ namespace LibraryApp.Controllers
         {
             List<Book> list = await _context.Book.Where(m => m.Title == title).ToListAsync();
             return View(nameof(Index), list);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Reserve(long id)
+        {
+            Debug.WriteLine(id);
+            Book? book = await _context.Book.FirstOrDefaultAsync(b => b.BookId == id);
+            return _signInResult.IsSignedIn(User) ? RedirectToAction("Create", "Reservations", book) : Redirect("/Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ViewReservation(long id)
+        {
+            Book? book = await _context.Book.FirstOrDefaultAsync(b => b.BookId == id);
+            Reservation? reservation = await _context.Reservation.FirstOrDefaultAsync(r => r.Id == book!.BookId);
+            long? reservationId = reservation!.Id;
+            return _signInResult.IsSignedIn(User) ? RedirectToAction("Detail", "Reservations", reservationId) : Redirect("/Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Devolve(long id)
+        {
+            Borrow? borrow = await _context.Borrow.FirstOrDefaultAsync(b => b.BookId == id);
+            return _signInResult.IsSignedIn(User) ? RedirectToAction("Delete", "Borrows", borrow!.Id) : Redirect("/Home");
         }
 
         public IActionResult Privacy()

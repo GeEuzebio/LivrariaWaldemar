@@ -22,6 +22,7 @@ namespace LibraryApp.Controllers
             _context = context;
             _signInManager = signInManager;
         }
+
         [HttpPost]
         public async Task<IActionResult> Search(long bookId, long userId)
         {
@@ -68,23 +69,24 @@ namespace LibraryApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateBorrow(long UserId, string BookTitle, DateTime InitialDate, DateTime LastDate)
+        public async Task<IActionResult> CreateBorrow(long UserId, long BookId, string BookTitle, DateTime InitialDate, DateTime LastDate)
         {
-            Debug.WriteLine(UserId);
-            Debug.WriteLine(BookTitle);
-            Debug.WriteLine(InitialDate);
-            Debug.WriteLine(LastDate);
-
             if (ModelState.IsValid)
             {
                 Borrow borrow = new Borrow
                 {
                     UserId = UserId,
-                    BookTitle = BookTitle,
+                    BookId = BookId,
                     InitialDate = InitialDate,
                     LastDate = LastDate
                 };
                 _context.Borrow.Add(borrow);
+                Book? book = await _context.Book.FirstOrDefaultAsync(b => b.BookId == BookId);
+                book!.Status = Status.Borrowed;
+                _context.Book.Update(book);
+                User? user = await _context.User.FirstOrDefaultAsync(u => u.UserId == UserId);
+                user!.HasBorrow = true;
+                _context.User.Update(user);
                 await _context.SaveChangesAsync();
                 return _signInManager.IsSignedIn(User) ? RedirectToAction(nameof(Index)) : Redirect("/Home");
             }
@@ -157,7 +159,7 @@ namespace LibraryApp.Controllers
                 return _signInManager.IsSignedIn(User) ? NotFound() : Redirect("/Home");
             }
 
-            return View(borrow);
+            return _signInManager.IsSignedIn(User) ? View(borrow) : NotFound();
         }
 
         // POST: Borrows/Delete/5
@@ -169,10 +171,28 @@ namespace LibraryApp.Controllers
             if (borrow != null)
             {
                 _context.Borrow.Remove(borrow);
+                Book? book = await _context.Book.FirstOrDefaultAsync(b => b.BookId == id);
+                book!.Status = Status.Available;
+                _context.Book.Update(book);
             }
 
             await _context.SaveChangesAsync();
             return _signInManager.IsSignedIn(User) ? RedirectToAction(nameof(Index)) : Redirect("/Home");
+        }
+
+        public async Task<IActionResult> Reserve(long? Id)
+        {
+            if(Id == null)
+            {
+                return _signInManager.IsSignedIn(User) ? NotFound() : Redirect("/Home");
+            }
+
+            Book? book = await _context.Book.FirstOrDefaultAsync(b => b.BookId == Id);
+            if(book == null)
+            {
+                return _signInManager.IsSignedIn(User) ? NotFound() : Redirect("/Home");
+            }
+            return _signInManager.IsSignedIn(User) ? RedirectToAction("Create", "Reservations", book) : Redirect("/Home");
         }
 
         private bool BorrowExists(long id)

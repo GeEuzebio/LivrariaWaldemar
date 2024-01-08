@@ -8,7 +8,7 @@
         public string? Author { get; set; }
         public int? Year { get; set; }
         public string? Edition {  get; set; }
-        public string Status { get; set; } = "Available";
+        public Status Status { get; set; } = Status.Available;
         public long? UserId { get; set; } = null;
 
     }
