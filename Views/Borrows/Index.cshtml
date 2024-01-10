@@ -5,6 +5,7 @@
 }
 
 <h1>Borrow's Control</h1>
+<h4>Borrows already active</h4>
 <table class="table">
     <thead>
         <tr>
@@ -15,37 +16,80 @@
                 @Html.DisplayNameFor(model => model.UserId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InitialDate)
+                @Html.DisplayNameFor(model => model.InitialDate!.Value.Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastDate)
+                @Html.DisplayNameFor(model => model.LastDate!.Value.Date)
             </th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
+            if (!item.IsDevolved)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Books" asp-action="Details" asp-route-id="@item.BookId">@Html.DisplayFor(modelItem => item.BookId)</a>
+                    </td>
+                    <td>
+                        <a asp-controller="Users" asp-action="Details" asp-route-id="@item.UserId">@Html.DisplayFor(modelItem => item.UserId)</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InitialDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastDate)
+                    </td>
+                    <td>
+                        @if (DateTime.Now.Date == item.LastDate)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id"><input type="button" class="btn btn-warning" value="Renew" /></a>
+                        }
+                        <a asp-action="Delete" asp-route-id="@item.Id"><input type="button" class="btn btn-danger" value="Devolve" /></a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<h4>Inactives Borrows</h4>
+<table class="table">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.InitialDate)
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.LastDate)
-            </td>
-            <td>
-                    @if(DateTime.Now == item.LastDate)
-                    {
-                        <a asp-action="Edit" asp-route-id="@item.Id"><input type="button" class="btn btn-warning" value="Renew" /></a>
-                    }
-                    <a asp-action="Details" asp-route-id="@item.Id"><input type="button" class="btn btn-info" value="Detail" /></a>
-                    <a asp-action="Delete" asp-route-id="@item.Id"><input type="button" class="btn btn-danger" value="Delete" /></a>
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.BookId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InitialDate!.Value.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastDate!.Value.Date)
+            </th>
         </tr>
-}
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.IsDevolved)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Books" asp-action="Details" asp-route-id="@item.UserId">@Html.DisplayFor(modelItem => item.BookId)</a>
+                    </td>
+                    <td>
+                        <a asp-controller="Users" asp-action="Details" asp-route-id="@item.BookId">@Html.DisplayFor(modelItem => item.UserId)</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InitialDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastDate)
+                    </td>
+                </tr>
+            }
+        }
     </tbody>
 </table>

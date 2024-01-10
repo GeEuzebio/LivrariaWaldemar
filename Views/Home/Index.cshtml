@@ -42,13 +42,15 @@
                         <th>
                             @Html.DisplayNameFor(model => model.First().Status)
                         </th>
-                        <th></th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.First().Reserved)
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        @if(item.Status == Status.Available)
+                        @if (item.Status == Status.Available && item.Reserved == Status.Available)
                         {
                             <tr>
                                 <td>
@@ -77,7 +79,7 @@
                                 </td>
                             </tr>
                         }
-                        else if(item.Status == Status.Reserved)
+                        else if(item.Status == Status.Available && item.Reserved == Status.Reserved)
                         {
                             <tr>
                                 <td>
@@ -95,19 +97,54 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Edition)
                                 </td>
-                                <td style="color:yellow">
+                                <td style="color:green">
                                     @Html.DisplayFor(modelItem => item.Status)
                                 </td>
-                                <td>
-                                    <form asp-action="Borrow" method="post">
-                                        <input style="display:none;" asp-for="First().BookId" value=@item.BookId />
-                                        <input type="submit" value="Borrowing" class="btn btn-success" />
-                                    </form>
+                                <td style="color:red">
+                                    Yes
                                 </td>
                                 <td>
                                     <form asp-action="ViewReservation" method="post">
                                         <input style="display: none;" name="id" value="@item.BookId" />
                                         <input type="submit" value="View Reservation" class="btn btn-info" />
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                        else if(item.Status == Status.Borrowed && item.Reserved == Status.Available)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Author)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Year)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Edition)
+                                </td>
+                                <td style="color:red">
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+                                <td style="color:green">
+                                    No
+                                </td>
+                                <td>
+                                    <form asp-action="Devolve" method="post">
+                                        <input style="display:none;" name="id" value="@item.BookId" />
+                                        <input type="submit" value="Devolve" class="btn btn-danger" />
+                                    </form>
+                                </td>
+                                <td>
+                                    <form asp-action="Reserve" method="post">
+                                        <input style="display:none;" name="id" value="@item.BookId" />
+                                        <input type="submit" value="Reserving" class="btn btn-warning" />
                                     </form>
                                 </td>
                             </tr>
@@ -133,16 +170,13 @@
                                 <td style="color:red">
                                     @Html.DisplayFor(modelItem => item.Status)
                                 </td>
+                                <td style="color:red">
+                                    Yes
+                                </td>
                                 <td>
                                     <form asp-action="Devolve" method="post">
                                         <input style="display:none;" name="id" value="@item.BookId" />
                                         <input type="submit" value="Devolve" class="btn btn-danger" />
-                                    </form>
-                                </td>
-                                <td>
-                                    <form asp-action="Reserve" method="post">
-                                        <input style="display:none;" name="id" value="@item.BookId" />
-                                        <input type="submit" value="Reserving" class="btn btn-warning" />
                                     </form>
                                 </td>
                             </tr>

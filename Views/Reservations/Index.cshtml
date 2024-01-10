@@ -4,11 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>Reservation's Control</h1>
 <table class="table">
     <thead>
         <tr>
@@ -31,21 +27,20 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.UserId)
+                    <a asp-controller="Books" asp-action="Details" asp-route-id="@item.BookId">@Html.DisplayFor(modelItem => item.BookId)</a>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BookId)
+                    <a asp-controller="Users" asp-action="Details" asp-route-id="@item.UserId">@Html.DisplayFor(modelItem => item.UserId)</a>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.InitialDate)
+                    @Html.DisplayFor(modelItem => item.InitialDate!.Value.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LastDate)
+                    @Html.DisplayFor(modelItem => item.LastDate!.Value.Date)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Details" asp-route-id="@item.Id"><input type="submit" value="Details" class="btn btn-info" /></a>
+                    <a asp-action="Delete" asp-route-id="@item.Id"><input type="submit" value="Delete" class="btn btn-danger" /></a>
             </td>
         </tr>
 }

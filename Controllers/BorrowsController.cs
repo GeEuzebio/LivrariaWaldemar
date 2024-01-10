@@ -83,6 +83,12 @@ namespace LibraryApp.Controllers
                 _context.Borrow.Add(borrow);
                 Book? book = await _context.Book.FirstOrDefaultAsync(b => b.BookId == BookId);
                 book!.Status = Status.Borrowed;
+                if(book.Reserved == Status.Reserved)
+                {
+                    book!.Reserved = Status.Available;
+                    Reservation? reservation = await _context.Reservation.FirstOrDefaultAsync(r => r.BookId == BookId);
+                    _context.Reservation.Remove(reservation!);
+                }
                 _context.Book.Update(book);
                 User? user = await _context.User.FirstOrDefaultAsync(u => u.UserId == UserId);
                 user!.HasBorrow = true;
@@ -94,6 +100,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Borrows/Edit/5
+        // Altered with objectiv of renew a borrow
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -114,7 +121,7 @@ namespace LibraryApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,InitialDate,LastDate")] Borrow borrow)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,BookId,UserId,InitialDate,LastDate")] Borrow borrow)
         {
             if (id != borrow.Id)
             {
@@ -170,9 +177,11 @@ namespace LibraryApp.Controllers
             var borrow = await _context.Borrow.FindAsync(id);
             if (borrow != null)
             {
-                _context.Borrow.Remove(borrow);
-                Book? book = await _context.Book.FirstOrDefaultAsync(b => b.BookId == id);
+                borrow!.IsDevolved = true;
+                Book? book = await _context.Book.FirstOrDefaultAsync(b => b.BookId == borrow.BookId);
                 book!.Status = Status.Available;
+                User? user = await _context.User.FirstOrDefaultAsync(u => u.UserId == borrow.UserId);
+                user!.HasBorrow = false;
                 _context.Book.Update(book);
             }
 

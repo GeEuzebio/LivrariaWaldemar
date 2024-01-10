@@ -53,17 +53,16 @@ namespace LibraryApp.Controllers
         [HttpPost]
         public async Task<IActionResult> ViewReservation(long id)
         {
-            Book? book = await _context.Book.FirstOrDefaultAsync(b => b.BookId == id);
-            Reservation? reservation = await _context.Reservation.FirstOrDefaultAsync(r => r.Id == book!.BookId);
+            Reservation? reservation = await _context.Reservation.FirstOrDefaultAsync(r => r.BookId == id);
             long? reservationId = reservation!.Id;
-            return _signInResult.IsSignedIn(User) ? RedirectToAction("Detail", "Reservations", reservationId) : Redirect("/Home");
+            return _signInResult.IsSignedIn(User) ? Redirect($"/Reservations/Details/{reservationId}") : Redirect("/Home");
         }
 
         [HttpPost]
         public async Task<IActionResult> Devolve(long id)
         {
             Borrow? borrow = await _context.Borrow.FirstOrDefaultAsync(b => b.BookId == id);
-            return _signInResult.IsSignedIn(User) ? RedirectToAction("Delete", "Borrows", borrow!.Id) : Redirect("/Home");
+            return _signInResult.IsSignedIn(User) ? Redirect($"/Borrows/Delete/{borrow!.Id}") : Redirect("/Home");
         }
 
         public IActionResult Privacy()

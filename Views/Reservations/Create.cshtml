@@ -26,15 +26,15 @@
             </div>
             <div class="form-group">
                 <label for="InitialDate" class="control-label">Initial Date</label>
-                <input name="InitialDate" class="form-control" value=@initialDate readonly />
+                <input name="InitialDate" class="form-control" value=@initialDate.Value.Date readonly />
                 <span validation-for="InitialDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="LastDate" class="control-label">Final Date</label>
-                <input name="LastDate" class="form-control" value=@initialDate.Value.AddDays(2) readonly />
+                <input name="LastDate" class="form-control" value=@initialDate.Value.AddDays(2).Date readonly />
                 <span validation-for="LastDate" class="text-danger"></span>
             </div>
-            @if (user != null && !user.HasBorrow)
+            @if (user != null && !user.HasReservation)
             {
                 <div class="form-group">
                     <input name="BookId" value="@Model.BookId" style="display:none" />
@@ -75,10 +75,10 @@
                     <input asp-for="@user.PhoneNumber" class="form-control" readonly />
                     <span validation-for="LastDate" class="text-danger"></span>
                 </div>
-                @if (user != null && user.HasBorrow)
+                @if (user != null && user.HasReservation)
                 {
                     <div class="col-md-4" style="text-align:center">
-                        <p>User has a borrow. Please, check <a asp-action="Index">here</a></p>
+                        <p>User has a reservation already. Please, check <a asp-action="Index">here</a></p>
                     </div>
                 }
             }

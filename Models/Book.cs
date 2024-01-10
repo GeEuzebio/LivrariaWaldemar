@@ -9,6 +9,7 @@
         public int? Year { get; set; }
         public string? Edition {  get; set; }
         public Status Status { get; set; } = Status.Available;
+        public Status Reserved { get; set; } = Status.Available;
         public long? UserId { get; set; } = null;
 
     }

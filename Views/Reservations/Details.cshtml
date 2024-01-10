@@ -26,17 +26,21 @@
             @Html.DisplayNameFor(model => model.InitialDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.InitialDate)
+            @Html.DisplayFor(model => model.InitialDate!.Value.Date)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.LastDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastDate)
+            @Html.DisplayFor(model => model.LastDate!.Value.Date)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div style="display: flex;">
+    <form asp-action="Search" asp-controller="Borrows">
+        <input name="UserId" value="@Model.UserId" style="display:none"/>
+        <input name="BookId" value="@Model.BookId" style="display:none" />
+        <input type="submit" value="Borrow" class="btn btn-warning" />
+    </form>
+    <a asp-action="Index"><input type="button" class="btn btn-dark" value="< Back to List" /></a>
 </div>

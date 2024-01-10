@@ -7,5 +7,6 @@
         public long BookId { get; set; }
         public DateTime? InitialDate { get; set; }
         public DateTime? LastDate { get; set; }
+        public bool IsDevolved { get; set; } = false;
     }
 }
