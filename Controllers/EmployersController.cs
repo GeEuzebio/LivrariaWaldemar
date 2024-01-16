@@ -70,7 +70,7 @@ namespace LibraryApp.Controllers
             var email = user!.Email;
             Employer? e = await _context.Employer.FirstOrDefaultAsync(m => m.Email == email);
             bool isAdmin = e!.IsAdmin;
-            return _signInManager.IsSignedIn(User) && isAdmin ? View() : Redirect("/Home");
+            return _signInManager.IsSignedIn(User) && isAdmin ? View() : Redirect("/Home");            
         }
 
         // POST: Employers/Create
@@ -103,7 +103,7 @@ namespace LibraryApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return _signInManager.IsSignedIn(User) && isAdmin ? View(employer) : Redirect("/Home");
+            return _signInManager.IsSignedIn(User) && isAdmin ? View(employer) : Redirect("/Home");            
         }
 
         // GET: Employers/Edit/5
