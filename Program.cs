@@ -21,6 +21,10 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+// Configurar a porta usando a variável de ambiente do Heroku
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+var url = $"http://0.0.0.0:{port}/";
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
