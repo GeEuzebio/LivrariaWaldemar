@@ -45,4 +45,12 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+var url = $"http://0.0.0.0:{port}/";
+
+var host = new WebHostBuilder()
+    .UseKestrel()
+    .UseUrls(url)
+    .Build();
+host.Run();
 app.Run();
