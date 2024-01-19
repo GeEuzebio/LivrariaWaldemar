@@ -44,5 +44,4 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
-app.Environment.IsProduction();
 app.Run();
