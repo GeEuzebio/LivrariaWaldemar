@@ -4,7 +4,7 @@
 
 namespace LibraryApp.Data.Migrations
 {
-    public partial class AzureNew : Migration
+    public partial class MSSQL : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

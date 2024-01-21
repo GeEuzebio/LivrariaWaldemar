@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240119213206_AzureNew")]
-    partial class AzureNew
+    [Migration("20240121014622_MSSQL")]
+    partial class MSSQL
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
