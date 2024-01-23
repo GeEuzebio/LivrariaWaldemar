@@ -1,9 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject UserManager<IdentityUser> User
 
 <ul class="navbar-nav">
-    @if (User.Identity.IsAuthenticated)
+@if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
         <a  class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
