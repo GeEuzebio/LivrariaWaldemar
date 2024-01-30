@@ -4,24 +4,29 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Users' Control</h1>
+<h1>Controle de Alunos</h1>
 
 <p>
-    <a asp-action="Create"><input type="button" value="Add New" class="btn btn-success" /></a>
+    <a asp-action="Create"><input type="button" value="Adicionar Aluno" class="btn btn-success" /></a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Nome
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                Email
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
+                Telefone
             </th>
-            <th></th>
+            <th>
+                Turma
+            </th>
+            <th>
+                Matrícula SIGE
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -37,9 +42,14 @@
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
             <td>
-                    <a asp-action="Edit" asp-route-id="@item.UserId"><input type="button" value="Edit" class="btn btn-warning" /></a>
-                    <a asp-action="Details" asp-route-id="@item.UserId"><input type="button" value="Detail" class="btn btn-info" /></a>
-                    <a asp-action="Delete" asp-route-id="@item.UserId"><input type="button" value="Delete" class="btn btn-danger" /></a>
+                @Html.DisplayFor(modelItem => item.Class)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SIGE)
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.UserId"><input type="button" value="Editar" class="btn btn-warning" /></a>
+                    <a asp-action="Delete" asp-route-id="@item.UserId"><input type="button" value="Remover" class="btn btn-danger" /></a>
             </td>
         </tr>
 }

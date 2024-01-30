@@ -4,21 +4,21 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Reservation's Control</h1>
+<h1>Controle de Reservas</h1>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UserId)
+                Matrícula SIGE
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BookId)
+                Registro do Livro
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InitialDate)
+                Data inicial da Reserva
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastDate)
+                Data final da Reserva
             </th>
             <th></th>
         </tr>
@@ -39,7 +39,6 @@
                     @Html.DisplayFor(modelItem => item.LastDate!.Value.Date)
             </td>
             <td>
-                    <a asp-action="Details" asp-route-id="@item.Id"><input type="submit" value="Details" class="btn btn-info" /></a>
                     <a asp-action="Delete" asp-route-id="@item.Id"><input type="submit" value="Delete" class="btn btn-danger" /></a>
             </td>
         </tr>

@@ -4,20 +4,20 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome to Library App System</h1>
+    <h1 class="display-4">Bem-vindo ao sitema da Biblioteca!</h1>
     <div class="col-md-6" style="margin: 20px auto">
         <form asp-action="Search" method="post">
-            <label>Search for a Book</label>
+            <label>Pesquisar um Livro</label>
             <div style="display: flex; flex-direction: row; align-items: center;">
                 <input name="title" type="search" class="input-group input-group-lg" />
-                <input type="submit" value="Search" class="btn btn-dark" style="padding:.2rem 0.75rem" />
+                <input type="submit" value="Buscar" class="btn btn-dark" style="padding:.2rem 0.75rem" />
             </div>
         </form>
     </div>
     <div class="col-md-8" style="margin: 20px auto">
         @if (Model == null || !Model.Any())
         {
-            <p>No books found</p>
+            <p>Nenhum Livro encontrado!</p>
         }
         else
         {
@@ -25,25 +25,25 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.First().Title)
+                            Título
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.First().Description)
+                            Descrição
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.First().Author)
+                            Autor
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.First().Year)
+                            Ano
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.First().Edition)
+                            Edição
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.First().Status)
+                            Status
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.First().Reserved)
+                            Reservado
                         </th>
                     </tr>
                 </thead>
@@ -71,10 +71,13 @@
                                 <td style="color:green">
                                     @Html.DisplayFor(modelItem => item.Status)
                                 </td>
+                                <td style="color:green">
+                                    Não
+                                </td>
                                 <td>
                                     <form asp-action="Borrow" method="post">
                                         <input style="display:none;" asp-for="First().BookId" value=@item.BookId/>
-                                        <input type="submit" value="Borrowing" class="btn btn-success" />
+                                        <input type="submit" value="Realizar Empréstimo" class="btn btn-success" />
                                     </form>
                                 </td>
                             </tr>
@@ -101,12 +104,12 @@
                                     @Html.DisplayFor(modelItem => item.Status)
                                 </td>
                                 <td style="color:red">
-                                    Yes
+                                    Sim
                                 </td>
                                 <td>
                                     <form asp-action="ViewReservation" method="post">
                                         <input style="display: none;" name="id" value="@item.BookId" />
-                                        <input type="submit" value="View Reservation" class="btn btn-info" />
+                                        <input type="submit" value="Ver Reserva" class="btn btn-info" />
                                     </form>
                                 </td>
                             </tr>
@@ -133,18 +136,18 @@
                                     @Html.DisplayFor(modelItem => item.Status)
                                 </td>
                                 <td style="color:green">
-                                    No
+                                    Não
                                 </td>
                                 <td>
                                     <form asp-action="Devolve" method="post">
                                         <input style="display:none;" name="id" value="@item.BookId" />
-                                        <input type="submit" value="Devolve" class="btn btn-danger" />
+                                        <input type="submit" value="Devolver" class="btn btn-danger" />
                                     </form>
                                 </td>
                                 <td>
                                     <form asp-action="Reserve" method="post">
                                         <input style="display:none;" name="id" value="@item.BookId" />
-                                        <input type="submit" value="Reserving" class="btn btn-warning" />
+                                        <input type="submit" value="Reservar" class="btn btn-warning" />
                                     </form>
                                 </td>
                             </tr>
@@ -171,12 +174,12 @@
                                     @Html.DisplayFor(modelItem => item.Status)
                                 </td>
                                 <td style="color:red">
-                                    Yes
+                                    Sim
                                 </td>
                                 <td>
                                     <form asp-action="Devolve" method="post">
                                         <input style="display:none;" name="id" value="@item.BookId" />
-                                        <input type="submit" value="Devolve" class="btn btn-danger" />
+                                        <input type="submit" value="Devolver" class="btn btn-danger" />
                                     </form>
                                 </td>
                             </tr>

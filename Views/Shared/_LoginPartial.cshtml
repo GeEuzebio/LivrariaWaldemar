@@ -6,33 +6,30 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a  class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
+        <a  class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Perfil</a>
     </li>
     <li class="nav-item">
-           <a class="nav-link text-light" asp-controller="Employers" asp-action="Index">Employee</a>
+            <a class="nav-link text-light" asp-controller="Users" asp-action="Index">Alunos</a>
     </li>
     <li class="nav-item">
-            <a class="nav-link text-light" asp-controller="Users" asp-action="Index">Users</a>
+            <a class="nav-link text-light" asp-controller="Books" asp-action="Index">Livros</a>
     </li>
     <li class="nav-item">
-            <a class="nav-link text-light" asp-controller="Books" asp-action="Index">Books</a>
+            <a class="nav-link text-light" asp-controller="Borrows" asp-action="Index">Empréstimos</a>
     </li>
     <li class="nav-item">
-            <a class="nav-link text-light" asp-controller="Borrows" asp-action="Index">Borrowings</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-light" asp-controller="Reservations" asp-action="Index">Reservations</a>
+        <a class="nav-link text-light" asp-controller="Reservations" asp-action="Index">Reservas</a>
     </li>
     <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new {area = ""})">
-                <button type="submit" class="nav-link btn btn-danger text-dark">Logout</button>
+                <button type="submit" class="nav-link btn btn-danger text-dark" style="padding-left: 25px; padding-right: 25px">Sair</button>
             </form>
     </li>
 }
 else
 {
     <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login"><input type="button" value="Login" class="btn btn-dark" style="padding-left:15px; padding-right: 15px;"/></a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login"><input type="button" value="Entrar" class="btn btn-dark" style="padding-left:15px; padding-right: 15px;"/></a>
     </li>
 }
 </ul>

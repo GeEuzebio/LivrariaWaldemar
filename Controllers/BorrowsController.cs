@@ -32,6 +32,13 @@ namespace LibraryApp.Controllers
             return RedirectToAction(nameof(Create), book);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SearchBook(long bookId)
+        {
+            var book = await _context.Book.FirstOrDefaultAsync(b => b.BookId == bookId);
+            return RedirectToAction(nameof(Create), book);
+        }
+
         // GET: Borrows
         public async Task<IActionResult> Index()
         {

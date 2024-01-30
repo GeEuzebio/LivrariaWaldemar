@@ -5,92 +5,109 @@
     User? user = ViewBag.UserData;
 }
 
-<h1>New Borrow</h1>
-<h4>Borrow</h4>
+<h1>Empréstimos</h1>
+<h4>Novo Empréstimo</h4>
 <div class="row">
     <div class="col-md-4">
         <hr />
-        <h4>Book's Information</h4>
-        <form asp-action="CreateBorrow">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="@Model.Title" class="control-label">Book's Title</label>
-                <input asp-for="@Model.Title" class="form-control" value="@Model.Title" readonly />
-                <span validation-for="BookTitle" class="text-danger"></span>
+        <h4>Informações do livro</h4>
+        <form asp-action="SearchBook" method="post">
+            <label for="bookId" class="control-label">Registro do livro</label>
+            <div style="display:flex">
+                <input name="bookId" class="form-control" />
+                <input type="submit" class="btn btn-info" value="Buscar" style="margin-left: 5px">
             </div>
-            <div class="form-group">
-                <label asp-for="@Model.Author" class="control-label">Author</label>
-                <input asp-for="@Model.Author" class="form-control" value="@Model.Author" readonly />
-                <span validation-for="Autor" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label for="InitialDate" class="control-label">Borrow's Date</label>
-                <input name="InitialDate" class="form-control" value=@DateTime.Now.Date readonly/>
-                <span validation-for="InitialDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label for="LastDate" class="control-label">Devolution's Date</label>
-                <input name="LastDate" class="form-control" value=@DateTime.Now.AddDays(15).Date readonly/>
-                <span validation-for="LastDate" class="text-danger"></span>
-            </div>
-            @if (user != null && !user.HasBorrow)
-            {
-                <div class="form-group">
-                    <input name="BookId" value="@Model.BookId" style="display:none"/>
-                    <input name="BookTitle" value="@Model.Title" style="display:none" />
-                    <input name="UserId" value="@user.UserId" style="display:none" />
-                    <input type="submit" value="Borrow" class="btn btn-success" style="margin-top: 20px" />
-                </div>
-            }
         </form>
-    </div>
-    <div class="col-md-4">
-        <hr />
-        <h4>User's Information</h4>
-        <form asp-action="Search" method="post">
-            <div class="form-group">
-                <label for="UserId" class="control-label">User Id</label>
-                <div style="display:flex">
-                    <input name="bookId" class="form-control" style="display:none" value="@Model.BookId" />
-                    <input name="userId" class="form-control" />
-                    <input type="submit" class="btn btn-info" value="Search" style="margin-left: 5px">
-                </div>
-                <span validation-for="UserId" class="text-danger"></span>
-            </div>
-            @if(user != null)
-            {
+        @if(Model.Title != null)
+        {
+            <form asp-action="CreateBorrow">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="@user.Name" class="control-label">User's Name</label>
-                    <input asp-for="@user!.Name" class="form-control" value="@user!.Name" readonly />
-                    <span validation-for="LastDate" class="text-danger"></span>
+                    <label asp-for="@Model!.Title" class="control-label">Título do livro</label>
+                    <input asp-for="@Model!.Title" class="form-control" value="@Model!.Title" readonly />
+                    <span validation-for="BookTitle" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="@user.Email" class="control-label">User's Email</label>
-                    <input asp-for="@user.Email" class="form-control" readonly />
-                    <span validation-for="LastDate" class="text-danger"></span>
+                    <label asp-for="@Model.Author" class="control-label">Autor</label>
+                    <input asp-for="@Model.Author" class="form-control" value="@Model.Author" readonly />
+                    <span validation-for="Autor" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="@user.PhoneNumber" class="control-label">User's Phone</label>
-                    <input asp-for="@user.PhoneNumber" class="form-control" readonly />
+                    <label for="InitialDate" class="control-label">Data do empréstimo</label>
+                    <input name="InitialDate" class="form-control" value=@DateTime.Now.Date readonly />
+                    <span validation-for="InitialDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="LastDate" class="control-label">Data da devolução</label>
+                    <input name="LastDate" class="form-control" value=@DateTime.Now.AddDays(15).Date readonly />
                     <span validation-for="LastDate" class="text-danger"></span>
                 </div>
-                @if (user != null && user.HasBorrow)
+                @if (user != null && !user.HasBorrow)
                 {
-                    <div class="col-md-4" style="text-align:center">
-                        <p>User has a borrow already. Please, check <a asp-action="Index">here</a></p>
+                    <div class="form-group">
+                        <input name="BookId" value="@Model.BookId" style="display:none" />
+                        <input name="BookTitle" value="@Model.Title" style="display:none" />
+                        <input name="UserId" value="@user.UserId" style="display:none" />
+                        <input type="submit" value="Borrow" class="btn btn-success" style="margin-top: 20px" />
                     </div>
                 }
-            }
-            else
-            {
-                <p style="text-align:center">User not found.</p>
-            }
-        </form>
+            </form>
+        }
+        else
+        {
+            <p>Livro não encontrado.</p>
+        }
     </div>
+    @if(Model.Title != null)
+    {
+        <div class="col-md-4">
+            <hr />
+            <h4>Informações do Aluno</h4>
+            <form asp-action="Search" method="post">
+                <div class="form-group">
+                    <label for="UserId" class="control-label">Matrícula SIGE</label>
+                    <div style="display:flex">
+                        <input name="bookId" class="form-control" style="display:none" value="@Model.BookId" />
+                        <input name="userId" class="form-control" />
+                        <input type="submit" class="btn btn-info" value="Buscar" style="margin-left: 5px">
+                    </div>
+                    <span validation-for="UserId" class="text-danger"></span>
+                </div>
+                @if (user != null)
+                {
+                    <div class="form-group">
+                        <label asp-for="@user.Name" class="control-label">Nome do Aluno</label>
+                        <input asp-for="@user!.Name" class="form-control" value="@user!.Name" readonly />
+                        <span validation-for="LastDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@user.Email" class="control-label">Email do Aluno</label>
+                        <input asp-for="@user.Email" class="form-control" readonly />
+                        <span validation-for="LastDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@user.PhoneNumber" class="control-label">Telefone do Aluno</label>
+                        <input asp-for="@user.PhoneNumber" class="form-control" readonly />
+                        <span validation-for="LastDate" class="text-danger"></span>
+                    </div>
+                    @if (user != null && user.HasBorrow)
+                    {
+                        <div class="col-md-4" style="text-align:center">
+                            <p>O aluno já possui um empréstimo. Por favor, verifique <a asp-action="Index">aqui</a></p>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p style="text-align:center">Aluno não encontrado.</p>
+                }
+            </form>
+        </div>
+    }
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index"><input type="button" class="btn btn-dark" style="margin-top:5px" value="< Voltar aos Empréstimos" /></a>
 </div>
 
 @section Scripts {

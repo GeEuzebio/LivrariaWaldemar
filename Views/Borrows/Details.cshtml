@@ -7,17 +7,17 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Borrow</h4>
+    <h4>Empréstimo</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.InitialDate)
+            Data do Empréstimo
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.InitialDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastDate)
+            Data da Devolução
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.LastDate)
@@ -26,5 +26,5 @@
 </div>
 <div style="display: flex;">
     <a asp-action="Edit" asp-route-id="@Model?.Id"><input type="button" value="Edit" class="btn btn-warning" /></a> 
-    <a asp-action="Index"><input type="button" class="btn btn-dark" value="< Back to List" /></a>
+    <a asp-action="Index"><input type="button" class="btn btn-dark" value="< Voltar aos Emptréstimos" /></a>
 </div>
