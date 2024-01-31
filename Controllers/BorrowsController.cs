@@ -35,7 +35,7 @@ namespace LibraryApp.Controllers
         [HttpPost]
         public async Task<IActionResult> SearchBook(long bookId)
         {
-            var book = await _context.Book.FirstOrDefaultAsync(b => b.BookId == bookId);
+            var book = await _context.Book.FirstOrDefaultAsync(b => b.Register == bookId);
             return RedirectToAction(nameof(Create), book);
         }
 
