@@ -4,10 +4,10 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Bem-vindo ao sitema da Biblioteca!</h1>
+    <h1 class="display-4" style="font-weight: 400;">Bem-vindo ao Sitema da Biblioteca!</h1>
     <div class="col-md-6" style="margin: 20px auto">
         <form asp-action="Search" method="post">
-            <label>Pesquisar um Livro</label>
+            <label style="font-weight: bold;">Pesquisar um Livro</label>
             <div style="display: flex; flex-direction: row; align-items: center;">
                 <input name="title" type="search" class="input-group input-group-lg" />
                 <input type="submit" value="Buscar" class="btn btn-dark" style="padding:.2rem 0.75rem" />
@@ -17,7 +17,7 @@
     <div class="col-md-8" style="margin: 20px auto">
         @if (Model == null || !Model.Any())
         {
-            <p>Nenhum Livro encontrado!</p>
+            <p style="font-weight: bold;">Nenhum Livro encontrado!</p>
         }
         else
         {
@@ -173,5 +173,8 @@
                 </tbody>
             </table>
         }
+    </div>
+    <div style="display:flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 70px">
+        <img src="/images/wf-icon.png" alt="WF Icon" style="position: absolute; z-index: -1; opacity: 0.3;"/>
     </div>
 </div>
