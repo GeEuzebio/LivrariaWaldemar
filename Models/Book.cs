@@ -9,7 +9,7 @@
         public long? Register { get; set; }
         public Status Status { get; set; } = Status.Available;
         public Status Reserved { get; set; } = Status.Available;
-        public long? UserId { get; set; } = null;
+        public string? UserId { get; set; } = null;
 
     }
 }

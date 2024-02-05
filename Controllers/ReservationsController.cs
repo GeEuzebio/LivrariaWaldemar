@@ -48,7 +48,7 @@ namespace LibraryApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Search(long bookId, long userId)
+        public async Task<IActionResult> Search(long bookId, string userId)
         {
             var book = await _context.Book.FirstOrDefaultAsync(b => b.BookId == bookId);
             book!.UserId = userId;
@@ -66,7 +66,7 @@ namespace LibraryApp.Controllers
             Borrow? borrow = await _context.Borrow.FirstOrDefaultAsync(b => b.BookId == book.BookId);
             DateTime? initialDate = borrow!.LastDate;
             ViewBag.InitialDate = initialDate;
-            User? user = await _context.User.FirstOrDefaultAsync(u => u.UserId == book.UserId);
+            User? user = await _context.User.FirstOrDefaultAsync(u => u.SIGE == book.UserId);
             ViewBag.UserData = user;
             return _signInManager.IsSignedIn(User) ? View(book): Redirect("/Home");
         }

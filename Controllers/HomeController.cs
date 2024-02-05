@@ -3,8 +3,8 @@ using LibraryApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Common;
 using System.Diagnostics;
+using LibraryApp.Services;
 
 namespace LibraryApp.Controllers
 {
@@ -13,19 +13,20 @@ namespace LibraryApp.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly SignInManager<IdentityUser> _signInResult;
+        private readonly WhatsAppSender _whatsAppSender;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, SignInManager<IdentityUser> signInManager)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, SignInManager<IdentityUser> signInManager, IConfiguration config)
         {
             _logger = logger;
             _context = context;
             _signInResult = signInManager;
+            _whatsAppSender = new WhatsAppSender(config);
         }
 
         public IActionResult Index()
         {
             return View();
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Borrow([Bind("BookId")] long BookId)

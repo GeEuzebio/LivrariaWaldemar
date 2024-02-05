@@ -1,4 +1,7 @@
-﻿@model IEnumerable<LibraryApp.Models.Book>
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<LibraryApp.Models.Book>
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -68,12 +71,15 @@
                                 <td style="color:green">
                                     Não
                                 </td>
-                                <td>
-                                    <form asp-action="Borrow" method="post">
-                                        <input style="display:none;" asp-for="First().BookId" value=@item.BookId/>
-                                        <input type="submit" value="Realizar Empréstimo" class="btn btn-success" />
-                                    </form>
-                                </td>
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <td>
+                                        <form asp-action="Borrow" method="post">
+                                            <input style="display:none;" asp-for="First().BookId" value=@item.BookId />
+                                            <input type="submit" value="Realizar Empréstimo" class="btn btn-success" />
+                                        </form>
+                                    </td>
+                                }
                             </tr>
                         }
                         else if(item.Status == Status.Available && item.Reserved == Status.Reserved)
@@ -97,12 +103,15 @@
                                 <td style="color:red">
                                     Sim
                                 </td>
-                                <td>
-                                    <form asp-action="ViewReservation" method="post">
-                                        <input style="display: none;" name="id" value="@item.BookId" />
-                                        <input type="submit" value="Ver Reserva" class="btn btn-info" />
-                                    </form>
-                                </td>
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <td>
+                                        <form asp-action="ViewReservation" method="post">
+                                            <input style="display: none;" name="id" value="@item.BookId" />
+                                            <input type="submit" value="Ver Reserva" class="btn btn-info" />
+                                        </form>
+                                    </td>
+                                }
                             </tr>
                         }
                         else if(item.Status == Status.Borrowed && item.Reserved == Status.Available)
@@ -126,18 +135,21 @@
                                 <td style="color:green">
                                     Não
                                 </td>
-                                <td>
-                                    <form asp-action="Devolve" method="post">
-                                        <input style="display:none;" name="id" value="@item.BookId" />
-                                        <input type="submit" value="Devolver" class="btn btn-danger" />
-                                    </form>
-                                </td>
-                                <td>
-                                    <form asp-action="Reserve" method="post">
-                                        <input style="display:none;" name="id" value="@item.BookId" />
-                                        <input type="submit" value="Reservar" class="btn btn-warning" />
-                                    </form>
-                                </td>
+                                @if(SignInManager.IsSignedIn(User))
+                                {
+                                    <td>
+                                        <form asp-action="Devolve" method="post">
+                                            <input style="display:none;" name="id" value="@item.BookId" />
+                                            <input type="submit" value="Devolver" class="btn btn-danger" />
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form asp-action="Reserve" method="post">
+                                            <input style="display:none;" name="id" value="@item.BookId" />
+                                            <input type="submit" value="Reservar" class="btn btn-warning" />
+                                        </form>
+                                    </td>
+                                }
                             </tr>
                         }
                         else
@@ -161,12 +173,15 @@
                                 <td style="color:red">
                                     Sim
                                 </td>
-                                <td>
-                                    <form asp-action="Devolve" method="post">
-                                        <input style="display:none;" name="id" value="@item.BookId" />
-                                        <input type="submit" value="Devolver" class="btn btn-danger" />
-                                    </form>
-                                </td>
+                                @if(SignInManager.IsSignedIn(User))
+                                {
+                                    <td>
+                                        <form asp-action="Devolve" method="post">
+                                            <input style="display:none;" name="id" value="@item.BookId" />
+                                            <input type="submit" value="Devolver" class="btn btn-danger" />
+                                        </form>
+                                    </td>
+                                }
                             </tr>
                         }
                     }
