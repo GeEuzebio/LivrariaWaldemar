@@ -63,7 +63,7 @@ namespace LibraryApp.Controllers
             {
                 return _signInManager.IsSignedIn(User) ? NotFound() : Redirect("/Home");
             }
-            Borrow? borrow = await _context.Borrow.FirstOrDefaultAsync(b => b.BookId == book.BookId);
+            Borrow? borrow = await _context.Borrow.FirstOrDefaultAsync(b => b.BookId == book.Register);
             DateTime? initialDate = borrow!.LastDate;
             ViewBag.InitialDate = initialDate;
             User? user = await _context.User.FirstOrDefaultAsync(u => u.SIGE == book.UserId);
@@ -76,7 +76,7 @@ namespace LibraryApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateReservation(long UserId, long BookId, string BookTitle, DateTime InitialDate, DateTime LastDate)
+        public async Task<IActionResult> CreateReservation(string UserId, string BookId, string BookTitle, DateTime InitialDate, DateTime LastDate)
         {
             if (ModelState.IsValid)
             {
@@ -88,10 +88,10 @@ namespace LibraryApp.Controllers
                 LastDate = LastDate
             };
             _context.Reservation.Add(reservation);
-            Book? book = await _context.Book.FirstOrDefaultAsync(b => b.BookId == BookId);
+            Book? book = await _context.Book.FirstOrDefaultAsync(b => b.Register == BookId);
             book!.Reserved = Status.Reserved;
             _context.Book.Update(book);
-            User? user = await _context.User.FirstOrDefaultAsync(u => u.UserId == UserId);
+            User? user = await _context.User.FirstOrDefaultAsync(u => u.SIGE == UserId);
             user!.HasReservation = true;
             _context.User.Update(user);
             await _context.SaveChangesAsync();
@@ -172,12 +172,12 @@ namespace LibraryApp.Controllers
         // POST: Reservations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var reservation = await _context.Reservation.FindAsync(id);
             if (reservation != null)
             {
-                User? user = await _context.User.FirstOrDefaultAsync(b => b.UserId == reservation.UserId);
+                User? user = await _context.User.FirstOrDefaultAsync(b => b.SIGE == reservation.UserId);
                 user!.HasReservation = false;
                 _context.User.Update(user);
                 _context.Reservation.Remove(reservation);

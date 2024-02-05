@@ -29,7 +29,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Users/Details/5
-        public async Task<IActionResult> Details(long? id)
+        public async Task<IActionResult> Details(string? id)
         {
             if (id == null)
             {
@@ -37,7 +37,7 @@ namespace LibraryApp.Controllers
             }
 
             var user = await _context.User
-                .FirstOrDefaultAsync(m => m.UserId == id);
+                .FirstOrDefaultAsync(m => m.SIGE == id);
             if (user == null)
             {
                 return _signInManager.IsSignedIn(User) ? NotFound() : Redirect("/Home");

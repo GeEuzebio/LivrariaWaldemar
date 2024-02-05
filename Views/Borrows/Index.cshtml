@@ -45,9 +45,9 @@
                     <td>
                         @if (DateTime.Now.Date == item.LastDate)
                         {
-                            <a asp-action="Edit" asp-route-id="@item.Id"><input type="button" class="btn btn-warning" value="Renew" /></a>
+                            <a asp-action="Edit" asp-route-id="@item.Id"><input type="button" class="btn btn-warning" value="Renovar" /></a>
                         }
-                        <a asp-action="Delete" asp-route-id="@item.Id"><input type="button" class="btn btn-danger" value="Devolve" /></a>
+                        <a asp-action="Delete" asp-route-id="@item.Id"><input type="button" class="btn btn-danger" value="Devolver" /></a>
                     </td>
                 </tr>
             }
@@ -79,10 +79,10 @@
             {
                 <tr>
                     <td>
-                        <a asp-controller="Books" asp-action="Details" asp-route-id="@item.UserId">@Html.DisplayFor(modelItem => item.BookId)</a>
+                        <a asp-controller="Books" asp-action="Details" asp-route-id="@item.BookId">@Html.DisplayFor(modelItem => item.BookId)</a>
                     </td>
                     <td>
-                        <a asp-controller="Users" asp-action="Details" asp-route-id="@item.BookId">@Html.DisplayFor(modelItem => item.UserId)</a>
+                        <a asp-controller="Users" asp-action="Details" asp-route-id="@item.UserId">@Html.DisplayFor(modelItem => item.UserId)</a>
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.InitialDate)

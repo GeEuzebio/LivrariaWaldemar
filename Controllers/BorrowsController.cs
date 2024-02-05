@@ -36,7 +36,7 @@ namespace LibraryApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SearchBook(long bookId)
+        public async Task<IActionResult> SearchBook(string bookId)
         {
             var book = await _context.Book.FirstOrDefaultAsync(b => b.Register == bookId);
             return RedirectToAction(nameof(Create), book);
@@ -80,7 +80,7 @@ namespace LibraryApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateBorrow(long UserId, long BookId, string BookTitle, DateTime InitialDate, DateTime LastDate)
+        public async Task<IActionResult> CreateBorrow(string UserId, string BookId, string BookTitle, DateTime InitialDate, DateTime LastDate)
         {
             if (ModelState.IsValid)
             {
@@ -97,7 +97,7 @@ namespace LibraryApp.Controllers
                     PrivateKey = privateKey
                 };
                 _context.Borrow.Add(borrow);
-                Book? book = await _context.Book.FirstOrDefaultAsync(b => b.BookId == BookId);
+                Book? book = await _context.Book.FirstOrDefaultAsync(b => b.Register == BookId);
                 book!.Status = Status.Borrowed;
                 if(book.Reserved == Status.Reserved)
                 {
@@ -106,7 +106,7 @@ namespace LibraryApp.Controllers
                     _context.Reservation.Remove(reservation!);
                 }
                 _context.Book.Update(book);
-                User? user = await _context.User.FirstOrDefaultAsync(u => long.Parse(u.SIGE!) == UserId);
+                User? user = await _context.User.FirstOrDefaultAsync(u => u.SIGE == UserId);
                 user!.HasBorrow = true;
                 _context.User.Update(user);
                 await _context.SaveChangesAsync();
@@ -209,9 +209,9 @@ namespace LibraryApp.Controllers
                 borrow!.IsDevolved = true;
                 borrow!.PrivateKey = privateKey;
                 borrow!.PublicKey = publicKey;
-                Book? book = await _context.Book.FirstOrDefaultAsync(b => b.BookId == borrow.BookId);
+                Book? book = await _context.Book.FirstOrDefaultAsync(b => b.Register == borrow.BookId);
                 book!.Status = Status.Available;
-                User? user = await _context.User.FirstOrDefaultAsync(u => u.UserId == borrow.UserId);
+                User? user = await _context.User.FirstOrDefaultAsync(u => u.SIGE == borrow.UserId);
                 user!.HasBorrow = false;
                 _context.Book.Update(book);
                 string message = $"*Biblioteca Waldemar Falcão*" +

@@ -29,7 +29,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Books/Details/5
-        public async Task<IActionResult> Details(long? id)
+        public async Task<IActionResult> Details(string? id)
         {
             if (id == null)
             {
@@ -37,7 +37,7 @@ namespace LibraryApp.Controllers
             }
 
             var book = await _context.Book
-                .FirstOrDefaultAsync(m => m.BookId == id);
+                .FirstOrDefaultAsync(m => m.Register == id);
             if (book == null)
             {
                 return _signInManager.IsSignedIn(User) ? NotFound() : Redirect("/Home");
@@ -69,7 +69,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Books/Edit/5
-        public async Task<IActionResult> Edit(long? id)
+        public async Task<IActionResult> Edit(string? id)
         {
             if (id == null)
             {
@@ -89,9 +89,9 @@ namespace LibraryApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Title,Genre,Author,Register")] Book book)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Title,Genre,Author,Register")] Book book)
         {
-            if (id != book.BookId)
+            if (id != book.Register)
             {
                 return _signInManager.IsSignedIn(User) ? NotFound() : Redirect("/Home");
             }
