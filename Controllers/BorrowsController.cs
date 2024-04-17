@@ -18,12 +18,14 @@ namespace LibraryApp.Controllers
         private readonly ApplicationDbContext _context;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly WhatsAppSender _whatsAppSender;
+        private readonly EmailSender _emailSender;
 
         public BorrowsController(ApplicationDbContext context, SignInManager<IdentityUser> signInManager, IConfiguration config)
         {
             _context = context;
             _signInManager = signInManager;
             _whatsAppSender = new WhatsAppSender(config);
+            _emailSender = new EmailSender(config);
         }
 
         [HttpPost]
@@ -69,7 +71,6 @@ namespace LibraryApp.Controllers
         // GET: Borrows/Create
         public async Task<IActionResult> Create(Book b)
         {
-            //corrigir a busca pelo SIGE e não pelo ID
             User? user = await _context.User.FirstOrDefaultAsync(u => u.SIGE == b.UserId);
             ViewBag.UserData = user;
             return _signInManager.IsSignedIn(User) ? View(b) : Redirect("/Home");
@@ -116,9 +117,17 @@ namespace LibraryApp.Controllers
                     $"\\u000AAutor: {book.Author}" +
                     $"\\u000AData do Empréstimo: {borrow.InitialDate.Value.Day}/{borrow.InitialDate.Value.Month}/{borrow.InitialDate.Value.Year}" +
                     $"\\u000AData de Devolução: {borrow.LastDate.Value.Day}/{borrow.LastDate.Value.Month}/{borrow.LastDate.Value.Year}";
+                string message_email = $"<strong>Biblioteca Waldemar Falcão</strong>" +
+                    $"<br/><br/>Informações do Empréstimo:" +
+                    $"<br/>Livro: {book.Title}" +
+                    $"<br/>Autor: {book.Author}" +
+                    $"<br/>Data do Empréstimo: {borrow.InitialDate.Value.Day}/{borrow.InitialDate.Value.Month}/{borrow.InitialDate.Value.Year}" +
+                    $"<br/>Data de Devolução: {borrow.LastDate.Value.Day}/{borrow.LastDate.Value.Month}/{borrow.LastDate.Value.Year}";
+
                 var signed = Signature.SignData(message, privateKey);
                 message = message + $"\\u000A\\u000A\\u000AAssinatura Digital: {signed}";
                 await _whatsAppSender.sendMessage("5585" + user.PhoneNumber!, message);
+                await _emailSender.SendEmail(user.Email!, "Empréstimo Realizado", message_email);
                 Debug.WriteLine("5585" + user.PhoneNumber!);
                 return _signInManager.IsSignedIn(User) ? RedirectToAction(nameof(Index)) : Redirect("/Home");
             }

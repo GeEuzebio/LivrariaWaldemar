@@ -11,6 +11,12 @@ namespace LibraryApp.Services
     {
         private readonly AuthMessageSenderOptions _emailSettings;
         private readonly IConfiguration _config;
+        private IConfiguration config;
+
+        public EmailSender(IConfiguration config)
+        {
+            this.config = config;
+        }
 
         public EmailSender(IOptions<AuthMessageSenderOptions> emailSettings, IConfiguration config)
         {
@@ -37,7 +43,7 @@ namespace LibraryApp.Services
 
             var mailMessage = new MailMessage
             {
-                From = new MailAddress("georgeeuzebio@gmail.com"),
+                From = new MailAddress("bibliotecawaldemarfalcao@gmail.com"),
                 Subject = subject,
                 Body = message,
                 IsBodyHtml = true,
