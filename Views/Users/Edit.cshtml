@@ -27,6 +27,16 @@
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Class" class="control-label">Turma</label>
+                <input asp-for="Class" class="form-control" />
+                <span asp-validation-for="Class" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SIGE" class="control-label">Matricula SIGE</label>
+                <input asp-for="SIGE" class="form-control" />
+                <span asp-validation-for="SIGE" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

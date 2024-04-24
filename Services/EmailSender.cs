@@ -9,18 +9,10 @@ namespace LibraryApp.Services
 {
     public class EmailSender : IEmailSender
     {
-        private readonly AuthMessageSenderOptions _emailSettings;
         private readonly IConfiguration _config;
-        private IConfiguration config;
 
         public EmailSender(IConfiguration config)
         {
-            this.config = config;
-        }
-
-        public EmailSender(IOptions<AuthMessageSenderOptions> emailSettings, IConfiguration config)
-        {
-            _emailSettings = emailSettings?.Value ?? throw new ArgumentNullException(nameof(emailSettings));
             _config = config;
         }
 

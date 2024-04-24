@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LibraryApp.Data;
 using LibraryApp.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Diagnostics;
 
 namespace LibraryApp.Controllers
 {
@@ -57,7 +58,7 @@ namespace LibraryApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Genre,Author,Register")] Book book)
+        public async Task<IActionResult> Create([Bind("BookId,Title,Genre,Author,Register")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -69,7 +70,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Books/Edit/5
-        public async Task<IActionResult> Edit(string? id)
+        public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
             {
@@ -89,13 +90,12 @@ namespace LibraryApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Title,Genre,Author,Register")] Book book)
+        public async Task<IActionResult> Edit(long id, [Bind("BookId,Title,Genre,Author,Register")] Book book)
         {
-            if (id != book.Register)
+            if (id != book.BookId)
             {
                 return _signInManager.IsSignedIn(User) ? NotFound() : Redirect("/Home");
             }
-
             if (ModelState.IsValid)
             {
                 try

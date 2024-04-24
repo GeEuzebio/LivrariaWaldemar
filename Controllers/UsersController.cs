@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LibraryApp.Data;
 using LibraryApp.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Diagnostics;
 
 namespace LibraryApp.Controllers
 {
@@ -22,10 +23,17 @@ namespace LibraryApp.Controllers
             _signInManager = signInManager;
         }
 
-        // GET: Users
-        public async Task<IActionResult> Index()
+        [HttpPost]
+        public async Task<IActionResult> FilterUser(string turma)
         {
-            return _signInManager.IsSignedIn(User) ? View(await _context.User.ToListAsync()) : Redirect("/Home");
+            List<User> users = users = await _context.User.Where(u => u.Class == turma).ToListAsync();
+            return View(nameof(Index), users);
+        }
+
+        // GET: Users
+        public IActionResult Index()
+        {
+            return _signInManager.IsSignedIn(User) ? View() : Redirect("/Home");
         }
 
         // GET: Users/Details/5
@@ -57,7 +65,7 @@ namespace LibraryApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,PhoneNumber,Class,SIGE")] User user)
+        public async Task<IActionResult> Create([Bind("UserId,Name,Email,PhoneNumber,Class,SIGE")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +97,7 @@ namespace LibraryApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Email,PhoneNumber,Class,SIGE")] User user)
+        public async Task<IActionResult> Edit(long id, [Bind("UserId,Name,Email,PhoneNumber,Class,SIGE")] User user)
         {
             if (id != user.UserId)
             {

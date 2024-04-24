@@ -37,10 +37,19 @@ namespace LibraryApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Search(string title)
+        public async Task<IActionResult> Search(string title, string filter)
         {
-            List<Book> list = await _context.Book.Where(m => m.Title == title).ToListAsync();
-            return View(nameof(Index), list);
+            if(filter == "Titulo")
+            {
+                List<Book> list = await _context.Book.Where(m => m.Title == title).ToListAsync();
+                return View(nameof(Index), list);
+            }
+            else if(filter == "Autor")
+            {
+                List<Book> list = await _context.Book.Where(m => m.Author == title).ToListAsync();
+                return View(nameof(Index), list);
+            }
+            return NotFound();
         }
 
         [HttpPost]

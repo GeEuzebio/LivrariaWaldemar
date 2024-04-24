@@ -111,24 +111,17 @@ namespace LibraryApp.Controllers
                 user!.HasBorrow = true;
                 _context.User.Update(user);
                 await _context.SaveChangesAsync();
-                string message = $"*Biblioteca Waldemar Falcão*" +
-                    $"\\u000A\\u000AInformações do Empréstimo:" +
-                    $"\\u000ALivro: {book.Title}" +
-                    $"\\u000AAutor: {book.Author}" +
-                    $"\\u000AData do Empréstimo: {borrow.InitialDate.Value.Day}/{borrow.InitialDate.Value.Month}/{borrow.InitialDate.Value.Year}" +
-                    $"\\u000AData de Devolução: {borrow.LastDate.Value.Day}/{borrow.LastDate.Value.Month}/{borrow.LastDate.Value.Year}";
                 string message_email = $"<strong>Biblioteca Waldemar Falcão</strong>" +
-                    $"<br/><br/>Informações do Empréstimo:" +
-                    $"<br/>Livro: {book.Title}" +
-                    $"<br/>Autor: {book.Author}" +
-                    $"<br/>Data do Empréstimo: {borrow.InitialDate.Value.Day}/{borrow.InitialDate.Value.Month}/{borrow.InitialDate.Value.Year}" +
-                    $"<br/>Data de Devolução: {borrow.LastDate.Value.Day}/{borrow.LastDate.Value.Month}/{borrow.LastDate.Value.Year}";
+                    $"<br />Este é um e-mail automático contendo informações sobre o seu empréstimo realizado na escola EEMTI Waldemar Falcão." +
+                    $"<br/><br/><strong>Informações do Empréstimo</strong>:" +
+                    $"<br/><strong>Livro</strong>: {book.Title}" +
+                    $"<br/><strong>Autor</strong>: {book.Author}" +
+                    $"<br/><strong>Data de Realização do Empréstimo</strong>: {borrow.InitialDate.Value.Day}/{borrow.InitialDate.Value.Month}/{borrow.InitialDate.Value.Year}" +
+                    $"<br/><strong>Data Prevista de Devolução</strong>: {borrow.LastDate.Value.Day}/{borrow.LastDate.Value.Month}/{borrow.LastDate.Value.Year}";
 
-                var signed = Signature.SignData(message, privateKey);
-                message = message + $"\\u000A\\u000A\\u000AAssinatura Digital: {signed}";
-                await _whatsAppSender.sendMessage("5585" + user.PhoneNumber!, message);
-                await _emailSender.SendEmail(user.Email!, "Empréstimo Realizado", message_email);
-                Debug.WriteLine("5585" + user.PhoneNumber!);
+                var signed = Signature.SignData(message_email, privateKey);
+                message_email = message_email + $"<br /><br />Assinatura Digital: {signed}";
+                await _emailSender.SendEmail(user.Email!, $"Empréstimo Realizado - {book.Title}", message_email);
                 return _signInManager.IsSignedIn(User) ? RedirectToAction(nameof(Index)) : Redirect("/Home");
             }
             return _signInManager.IsSignedIn(User) ? RedirectToAction("Index") : Redirect("/Home");
@@ -223,14 +216,17 @@ namespace LibraryApp.Controllers
                 User? user = await _context.User.FirstOrDefaultAsync(u => u.SIGE == borrow.UserId);
                 user!.HasBorrow = false;
                 _context.Book.Update(book);
-                string message = $"*Biblioteca Waldemar Falcão*" +
-                    $"\\u000A\\u000AInformações do Empréstimo:" +
-                    $"\\u000ALivro: {book.Title}" +
-                    $"\\u000AAutor: {book.Author}" +
-                    $"\\u000ALivro Devolvido em: {DateTime.Now.Day}/{DateTime.Now.Month}/{DateTime.Now.Year}";
-                var signed = Signature.SignData(message, privateKey);
-                message = message + $"\\u000A\\u000A\\u000AAssinatura Digital: {signed}";
-                await _whatsAppSender.sendMessage("5585" + user.PhoneNumber!, message);
+                string message_email = $"<strong>Biblioteca Waldemar Falcão</strong>" +
+                    $"<br />Este é um e-mail automático contendo informações sobre o seu empréstimo realizado na escola EEMTI Waldemar Falcão." +
+                    $"<br/><br/><strong>Informações da Devolução</strong>:" +
+                    $"<br/><strong>Livro</strong>: {book.Title}" +
+                    $"<br/><strong>Autor</strong>: {book.Author}" +
+                    $"<br/><strong>Data de Realização do Empréstimo</strong>: {borrow.InitialDate!.Value.Day}/{borrow.InitialDate!.Value.Month}/{borrow.InitialDate!.Value.Year}" +
+                    $"<br/><strong>Data de Devolução</strong>: {DateTime.Now.Day}/{DateTime.Now.Month}/{DateTime.Now.Year}";
+
+                var signed = Signature.SignData(message_email, privateKey);
+                message_email = message_email + $"<br /><br />Assinatura Digital: {signed}";
+                await _emailSender.SendEmail(user.Email!, $"Devolução Realizada - {book.Title}", message_email);
             }
 
             await _context.SaveChangesAsync();

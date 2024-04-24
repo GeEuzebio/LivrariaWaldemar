@@ -9,6 +9,26 @@
 <p>
     <a asp-action="Create"><input type="button" value="Cadastrar Aluno" class="btn btn-success" /></a>
 </p>
+<h3>Lista de Alunos</h3>
+<form asp-action="FilterUser">
+    <div class="row" style="width: 30%;">
+        <div class="col">
+            <label name="turma">Turma</label>
+            <select class="custom-select" name="turma" style="padding: 2px;">
+                <option>1º Ano A</option>
+                <option>1º Ano B</option>
+                <option>1º Ano C</option>
+                <option>1º Ano D</option>
+                <option>2º Ano A</option>
+                <option>2º Ano B</option>
+                <option>2º Ano C</option>
+                <option>3º Ano A</option>
+                <option>3º Ano B</option>
+            </select>
+        </div>
+        <input type="submit" value="Pesquisar" class="btn btn-info" style="width: 100px;"/>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -16,7 +36,7 @@
                 Nome
             </th>
             <th>
-                Email
+                E-mail
             </th>
             <th>
                 Telefone
@@ -29,29 +49,33 @@
             </th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Class)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SIGE)
-            </td>
-            <td>
-                    <a asp-action="Edit" asp-route-id="@item.UserId"><input type="button" value="Editar" class="btn btn-warning" /></a>
-                    <a asp-action="Delete" asp-route-id="@item.UserId"><input type="button" value="Remover" class="btn btn-danger" /></a>
-            </td>
-        </tr>
-}
-    </tbody>
+    @if(Model != null)
+    {
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Class)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SIGE)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.UserId"><input type="button" value="Editar" class="btn btn-warning" /></a>
+                        <a asp-action="Delete" asp-route-id="@item.UserId"><input type="button" value="Remover" class="btn btn-danger" /></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    }
 </table>
