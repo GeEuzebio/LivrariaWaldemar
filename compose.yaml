@@ -8,7 +8,8 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      - sqlserver
+      sqlserver:
+        condition: service_healthy
     develop:
       watch:
         - action: rebuild
@@ -28,6 +29,11 @@ services:
       - C:/Users/georg/OneDrive/Area de Trabalho/LivrariaWaldemar/LibraryApp/mssql/:/var/opt/mssql/data/
     networks:
       - mynetwork
+    healthcheck:
+      test: [ "CMD", "/opt/mssql-tools/bin/sqlcmd", "-Slocalhost", "-Usa", "-PAn@5ophia","-Q","SELECT 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 networks:
   mynetwork:  
