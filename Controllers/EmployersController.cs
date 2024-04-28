@@ -34,11 +34,12 @@ namespace LibraryApp.Controllers
         // GET: Employers
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.GetUserAsync(User);
-            var email = user!.Email;
-            Employer? e = await _context.Employer.FirstOrDefaultAsync(m => m.Email == email);
-            bool isAdmin = e!.IsAdmin;
-            return _signInManager.IsSignedIn(User) && isAdmin ? View(await _context.Employer.ToListAsync()) : Redirect("/Home");
+            //var user = await _userManager.GetUserAsync(User);
+            //var email = user!.Email;
+            //Employer? e = await _context.Employer.FirstOrDefaultAsync(m => m.Email == email);
+            //bool isAdmin = e!.IsAdmin;
+            //return _signInManager.IsSignedIn(User) && isAdmin ? View(await _context.Employer.ToListAsync()) : Redirect("/Home");
+            return View(await _context.Employer.ToListAsync());
         }
 
         // GET: Employers/Details/5
@@ -66,11 +67,12 @@ namespace LibraryApp.Controllers
         // GET: Employers/Create
         public async Task<IActionResult> Create()
         {
-            var user = await _userManager.GetUserAsync(User);
-            var email = user!.Email;
-            Employer? e = await _context.Employer.FirstOrDefaultAsync(m => m.Email == email);
-            bool isAdmin = e!.IsAdmin;
-            return _signInManager.IsSignedIn(User) && isAdmin ? View() : Redirect("/Home");            
+            //var user = await _userManager.GetUserAsync(User);
+            //var email = user!.Email;
+            //Employer? e = await _context.Employer.FirstOrDefaultAsync(m => m.Email == email);
+            //bool isAdmin = e!.IsAdmin;
+            //return _signInManager.IsSignedIn(User) && isAdmin ? View() : Redirect("/Home");
+            return View();
         }
 
         // POST: Employers/Create
@@ -80,10 +82,10 @@ namespace LibraryApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Email,PhoneNumber,IsAdmin")] Employer employer)
         {
-            var u = await _userManager.GetUserAsync(User);
-            var email = u!.Email;
-            Employer? e = await _context.Employer.FirstOrDefaultAsync(m => m.Email == email);
-            bool isAdmin = e!.IsAdmin;
+            //var u = await _userManager.GetUserAsync(User);
+            //var email = u!.Email;
+            //Employer? e = await _context.Employer.FirstOrDefaultAsync(m => m.Email == email);
+            //bool isAdmin = e!.IsAdmin;
             if (ModelState.IsValid)
             {
                 var user = new IdentityUser { Email = employer.Email };
@@ -103,7 +105,8 @@ namespace LibraryApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return _signInManager.IsSignedIn(User) && isAdmin ? View(employer) : Redirect("/Home");
+            //return _signInManager.IsSignedIn(User) && isAdmin ? View(employer) : Redirect("/Home");
+            return View(employer);
         }
 
         // GET: Employers/Edit/5

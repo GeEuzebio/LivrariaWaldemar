@@ -43,6 +43,8 @@ RUN --mount=type=cache,id=nuget,target=/root/.nuget/packages \
 # version (e.g., aspnet:7.0.10-alpine-3.18),
 # or SHA (e.g., mcr.microsoft.com/dotnet/aspnet@sha256:f3d99f54d504a21d38e4cc2f13ff47d67235efeeb85c109d3d1ff1808b38d034).
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS final
+RUN apk add --no-cache icu-libs
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 WORKDIR /app
 
 # Copy everything needed to run the app from the "build" stage.
@@ -52,7 +54,7 @@ COPY --from=build /app .
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
 # and https://github.com/dotnet/dotnet-docker/discussions/4764
 USER $APP_UID
+EXPOSE 80
+EXPOSE 443
 
-#ENTRYPOINT ["dotnet", "LibraryApp.dll"]
-
-CMD ASPNETCORE_URLS="http://*:$PORT" dotnet LibraryApp.dll
+ENTRYPOINT ["dotnet", "LibraryApp.dll"]
