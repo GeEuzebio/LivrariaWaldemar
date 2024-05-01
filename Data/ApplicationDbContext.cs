@@ -2,23 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using LibraryApp.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace LibraryApp.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            CultureInfo culture = CultureInfo.InvariantCulture;
-            CultureInfo.DefaultThreadCurrentCulture = culture;
-            CultureInfo.DefaultThreadCurrentUICulture = culture;
         }
         public DbSet<LibraryApp.Models.Book> Book { get; set; } = default!;
         public DbSet<LibraryApp.Models.Employer> Employer { get; set; } = default!;

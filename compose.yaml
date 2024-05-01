@@ -1,39 +1,41 @@
 services:
   server:
-    container_name: library    
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: final
+    image: geeuzebio/wflibrary:latest
+    container_name: library
     ports:
       - 8080:8080
+    expose:
+      - 80
     depends_on:
-      sqlserver:
+      db:
         condition: service_healthy
-    develop:
-      watch:
-        - action: rebuild
-          path: .
     networks:
-      - mynetwork
-
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server
-    container_name: sqlserver
-    environment:
-      ACCEPT_EULA: Y
-      SA_PASSWORD: "An@5ophia"
-    ports:
-      - "1433:1433"
+     - mynetwork
+  
+  db:
+    image: postgres
+    container_name: postgres
+    restart: always
+    user: postgres
     volumes:
-      - C:/Users/georg/OneDrive/Area de Trabalho/LivrariaWaldemar/LibraryApp/mssql/:/var/opt/mssql/data/
-    networks:
-      - mynetwork
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=wflibrary
+      - POSTGRES_PASSWORD=An@5ophia
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
     healthcheck:
-      test: [ "CMD", "/opt/mssql-tools/bin/sqlcmd", "-Slocalhost", "-Usa", "-PAn@5ophia","-Q","SELECT 1" ]
+      test: [ "CMD", "pg_isready", "-d", "wflibrary" ]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+     - mynetwork
+
+volumes:
+  db-data:
 
 networks:
   mynetwork:  

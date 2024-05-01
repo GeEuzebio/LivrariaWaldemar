@@ -54,7 +54,5 @@ COPY --from=build /app .
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
 # and https://github.com/dotnet/dotnet-docker/discussions/4764
 USER $APP_UID
-EXPOSE 80
-EXPOSE 443
 
 ENTRYPOINT ["dotnet", "LibraryApp.dll"]

@@ -11,7 +11,10 @@ public static class DatabaseManagementService
         {
             var serviceDb = serviceScope.ServiceProvider
                 .GetService<ApplicationDbContext>();
-            serviceDb!.Database.Migrate();
+            if (serviceDb!.Database.GetPendingMigrations().Any())
+            {
+                serviceDb.Database.Migrate();
+            }
         }
     }
 }
