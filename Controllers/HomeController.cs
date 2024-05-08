@@ -41,12 +41,18 @@ namespace LibraryApp.Controllers
         {
             if(filter == "Titulo")
             {
-                List<Book> list = await _context.Book.Where(m => m.Title == title).ToListAsync();
+                List<Book> list = await _context.Book
+                                                .Where(m => m.Title!.ToUpper().Contains(title.ToUpper()))
+                                                .OrderBy(b => b.Register)
+                                                .ToListAsync();
                 return View(nameof(Index), list);
             }
             else if(filter == "Autor")
             {
-                List<Book> list = await _context.Book.Where(m => m.Author == title).ToListAsync();
+                List<Book> list = await _context.Book
+                                                .Where(m => m.Author!.ToUpper().Contains(title.ToUpper()))
+                                                .OrderBy(a => a.Author)
+                                                .ToListAsync();
                 return View(nameof(Index), list);
             }
             return NotFound();

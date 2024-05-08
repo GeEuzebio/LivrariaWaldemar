@@ -1,4 +1,8 @@
-﻿@model IEnumerable<LibraryApp.Models.User>
+﻿
+@using Microsoft.AspNetCore.Identity
+@model IEnumerable<LibraryApp.Models.User>
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Index";
@@ -15,15 +19,15 @@
         <div class="col">
             <label name="turma">Turma</label>
             <select class="custom-select" name="turma" style="padding: 2px;">
-                <option>1º Ano A</option>
-                <option>1º Ano B</option>
-                <option>1º Ano C</option>
-                <option>1º Ano D</option>
-                <option>2º Ano A</option>
-                <option>2º Ano B</option>
-                <option>2º Ano C</option>
-                <option>3º Ano A</option>
-                <option>3º Ano B</option>
+                <option value="1A">1º Ano A</option>
+                <option value="1B">1º Ano B</option>
+                <option value="1C">1º Ano C</option>
+                <option value="1D">1º Ano D</option>
+                <option value="2A">2º Ano A</option>
+                <option value="2B">2º Ano B</option>
+                <option value="2C">2º Ano C</option>
+                <option value="3A">3º Ano A</option>
+                <option value="3B">3º Ano B</option>
             </select>
         </div>
         <input type="submit" value="Pesquisar" class="btn btn-info" style="width: 100px;"/>
@@ -54,6 +58,56 @@
         <tbody>
             @foreach (var item in Model)
             {
+                if(item.HasBorrow)
+                {
+                <tr style="color: red;">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Class)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SIGE)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.UserId"><input type="button" value="Editar" class="btn btn-warning" /></a>
+                        <a asp-action="Delete" asp-route-id="@item.UserId"><input type="button" value="Remover" class="btn btn-danger" /></a>
+                    </td>
+                </tr>
+                }
+                else if(item.HasReservation)
+                {
+                <tr style="color: yellow;">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Class)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SIGE)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.UserId"><input type="button" value="Editar" class="btn btn-warning" /></a>
+                        <a asp-action="Delete" asp-route-id="@item.UserId"><input type="button" value="Remover" class="btn btn-danger" /></a>
+                    </td>
+                </tr>
+                }
+                else
+                {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
@@ -75,6 +129,7 @@
                         <a asp-action="Delete" asp-route-id="@item.UserId"><input type="button" value="Remover" class="btn btn-danger" /></a>
                     </td>
                 </tr>
+                }
             }
         </tbody>
     }

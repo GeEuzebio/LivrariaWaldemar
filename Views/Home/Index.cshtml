@@ -86,7 +86,7 @@
                                 }
                             </tr>
                         }
-                        else if(item.Status == Status.Available && item.Reserved == Status.Reserved)
+                        else if (item.Status == Status.Available && item.Reserved == Status.Reserved)
                         {
                             <tr>
                                 <td>
@@ -118,7 +118,7 @@
                                 }
                             </tr>
                         }
-                        else if(item.Status == Status.Borrowed && item.Reserved == Status.Available)
+                        else if (item.Status == Status.Borrowed && item.Reserved == Status.Available)
                         {
                             <tr>
                                 <td>
@@ -139,7 +139,7 @@
                                 <td style="color:green">
                                     Não
                                 </td>
-                                @if(SignInManager.IsSignedIn(User))
+                                @if (SignInManager.IsSignedIn(User))
                                 {
                                     <td>
                                         <form asp-action="Devolve" method="post">
@@ -177,7 +177,7 @@
                                 <td style="color:red">
                                     Sim
                                 </td>
-                                @if(SignInManager.IsSignedIn(User))
+                                @if (SignInManager.IsSignedIn(User))
                                 {
                                     <td>
                                         <form asp-action="Devolve" method="post">
@@ -193,7 +193,7 @@
             </table>
         }
     </div>
-    <div style="display:flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 70px">
-        <img src="/images/wf-icon.png" alt="WF Icon" style="position: absolute; z-index: -1; opacity: 0.3;"/>
-    </div>
+</div>
+<div style="display:flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 70px">
+    <img src="/images/wf-icon.png" alt="WF Icon" style="position: absolute; z-index: -1; opacity: 0.3;" />
 </div>
