@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibraryApp.Data;
 using LibraryApp.Models;
+using System.Diagnostics;
 
 namespace LibraryApp.Controllers
 {
@@ -19,10 +20,18 @@ namespace LibraryApp.Controllers
             _context = context;
         }
 
-        // GET: Cards
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Search(string name, string classroom)
         {
-            return View(await _context.Card.ToListAsync());
+            Debug.WriteLine(name);
+            Debug.WriteLine(classroom);
+            User? user = await _context.User.FirstOrDefaultAsync(u => u.Name == name);         
+            return View(nameof(Index), user);
+        }
+
+        // GET: Cards
+        public IActionResult Index()
+        {
+            return View();
         }
 
         // GET: Cards/Details/5
