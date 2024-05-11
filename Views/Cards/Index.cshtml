@@ -5,12 +5,12 @@
 }
 
 <form asp-action="Search">
-    <div class="row">
+    <div class="col-md-6">
         <div class="col">
             <label class="control-label">Nome Completo:</label>
             <input name="name" class="form-control">
         </div>
-        <div class="col">
+        <div class="col" style="margin: 10px 0;">
             <label>Turma</label>
             <select class="custom-select" name="classroom" style="padding: 2px;">
                 <option value="1A">1º Ano A</option>
@@ -33,57 +33,55 @@
 
 @if (Model != null)
 {
-    <div class="container-fluid">
-        <div class="card" style="background-color:#000; width: 320px; height: 190px">
+    <div class="container" style="margin-top: 50px;">
+        <div class="card" style="background-color:#000; width: 320px; height: 190px" id="card">
             <div class="card-body">
-                <div class="card-header" style="color:#fff">
+                <div class="card-header" style="padding: 0;color:#fff; background-color: transparent; border: none;">
                     <h5 class="card-title">@Model!.Name</h5>
                     <h6 class="card-subtitle">Carteirinha de Identificação</h6>
                 </div>
-                <div class="container-footer" style="color:#fff; font-size:10pt">
+                <div class="container-footer" style="color:#fff; font-size:10pt; margin-top:30px;">
                     <p>
-                        Matrícula: @Model!.SIGE
+                        Matrícula: @Model!.SIGE<br/>
                         Turma: @switch (Model.Class)
                         {
                             case "1A":
-                                <text>1º Ano A</text>
+                                <text>1º Ano A</text><br/>
                                 ;
                                 break;
                             case "1B":
-                                <text>1º Ano A</text>
+                                <text>1º Ano B</text><br/>
                                 ;
                                 break;
                             case "1C":
-                                <text>1º Ano A</text>
+                                <text>1º Ano C</text><br/>
                                 ;
                                 break;
                             case "1D":
-                                <text>1º Ano A</text>
+                                <text>1º Ano D</text><br/>
                                 ;
                                 break;
                             case "2A":
-                                <text>1º Ano A</text>
+                                <text>2º Ano A</text><br/>
                                 ;
                                 break;
                             case "2B":
-                                <text>1º Ano A</text>
+                                <text>2º Ano B</text><br/>
                                 ;
                                 break;
                             case "2C":
-                                <text>1º Ano A</text>
+                                <text>2º Ano C</text><br/>
                                 ;
                                 break;
                             case "3A":
-                                <text>1º Ano A</text>
+                                <text>3º Ano A</text><br/>
                                 ;
                                 break;
                             case "3B":
-                                <text>1º Ano A</text>
+                                <text>3º Ano B</text><br/>
                                 ;
                                 break;
                         }
-                        Email: @Model.Email
-                        Biblioteca e Multimeios EEMTI Waldemar Falcão
                     </p>
                 </div>
             </div>

@@ -22,9 +22,7 @@ namespace LibraryApp.Controllers
 
         public async Task<IActionResult> Search(string name, string classroom)
         {
-            Debug.WriteLine(name);
-            Debug.WriteLine(classroom);
-            User? user = await _context.User.FirstOrDefaultAsync(u => u.Name == name);         
+            User? user = await _context.User.FirstAsync(u => u.Name!.Trim() == name && u.Class!.Trim() == classroom);
             return View(nameof(Index), user);
         }
 

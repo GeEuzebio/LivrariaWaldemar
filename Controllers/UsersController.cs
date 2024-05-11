@@ -26,7 +26,7 @@ namespace LibraryApp.Controllers
         [HttpPost]
         public async Task<IActionResult> FilterUser(string turma)
         {
-            List<User> users = users = await _context.User.Where(u => u.Class == turma).ToListAsync();
+            List<User> users = await _context.User.Where(u => u.Class == turma).ToListAsync();
             return View(nameof(Index), users);
         }
 
