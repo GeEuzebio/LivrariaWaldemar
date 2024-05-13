@@ -4,33 +4,30 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Detalhes de verificação do aluno: @Model.Name</h1>
 
 <div>
     <h4>User</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            Nome
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
+            Turma
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
+            @Html.DisplayFor(model => model.Class)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
+            Matrícula
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhoneNumber)
+            @Html.DisplayFor(model => model.SIGE)
         </dd>
     </dl>
-</div>
-<div style="display: flex;">
-    <a asp-action="Edit" asp-route-id="@Model?.UserId"><input type="button" value="Edit" class="btn btn-warning" /></a>
-    <a asp-action="Index"><input type="button" class="btn btn-dark" value="< Back to List" /></a>
+    <h3>Aluno verificado!</h3>
 </div>

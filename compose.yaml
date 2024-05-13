@@ -1,6 +1,6 @@
 services:
   server:
-    image: geeuzebio/wflibrary:newest
+    image: geeuzebio/wflibrary:cardsnew
     container_name: library
     ports:
       - 8080:8080

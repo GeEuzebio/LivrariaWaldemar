@@ -45,13 +45,13 @@ namespace LibraryApp.Controllers
             }
 
             var user = await _context.User
-                .FirstOrDefaultAsync(m => m.SIGE == id);
+                .FirstOrDefaultAsync(m => m.UserId.ToString() == id);
             if (user == null)
             {
-                return _signInManager.IsSignedIn(User) ? NotFound() : Redirect("/Home");
+                return NotFound();
             }
 
-            return _signInManager.IsSignedIn(User) ? View(user) : Redirect("/Home");
+            return View(user);
         }
 
         // GET: Users/Create
