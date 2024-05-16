@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BlazorCalendar" Version="2.6.8" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.0" />
@@ -30,6 +31,8 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
     <PackageReference Include="QRCoder" Version="1.4.1" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
+    <PackageReference Include="Syncfusion.Blazor.Calendars" Version="25.2.4" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="25.2.4" />
     <PackageReference Include="ZXing.Net" Version="0.16.9" />
   </ItemGroup>
 

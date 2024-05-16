@@ -1,0 +1,105 @@
+@model LibraryApp.Models.Scheduling
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Marcar Agendamento</h1>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="SearchByDate" style="display: flex; flex-direction: row; align-items: flex-end;">
+            <div class="form-group">
+                @if(!Model.Day.HasValue)
+                {
+                    <input name="date" type="date" min="@DateTime.Now.Year.ToString("yyyy")-01-01"
+                    max="@DateTime.Now.Year.ToString("yyyy")-12-31" value="@DateTime.Now.ToString("yyyy-MM-dd")"
+                    class="form-control" />
+                } else {
+                    <input name="date" type="date" min="@DateTime.Now.Year.ToString("yyyy")-01-01"
+                    max="@DateTime.Now.Year.ToString("yyyy")-12-31" value="@Model.Day!.Value.ToString("yyyy-MM-dd")"
+                    class="form-control" />
+                }
+                <span validation="day" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Pesquisar" class="btn btn-dark" id="registerSubmit" />
+            </div>
+        </form>
+        @if (Model.Day.HasValue)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Horário
+                        </th>
+                        <th>
+                            Turma
+                        </th>
+                        <th>
+                            Professor
+                        </th>
+                        <th>
+                            Disponibilidade
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Hours.Count(); i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.Hours[i])
+                            </td>
+                            @if (Model.IsScheduled[i])
+                            {
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.ClassRoom[i])
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Professor[i])
+                                </td>
+                                <td style="color:red">
+                                    Indisponível
+                                </td>
+                                <td>
+                                    <input type="button" class="btn btn-danger" value="Desagendar" />
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    -
+                                </td>
+                                <td>
+                                    -
+                                </td>
+                                <td style="color:green">
+                                    Disponível
+                                </td>
+                                <td>
+                                    <form asp-action="Schedule">
+                                        <input name="day" type="date" value="@Model.Day!.Value.ToString("yyy-MM-dd")" style="display: none;"/>
+                                        <input name="position" type="number" value="@i"  style="display: none;"/>
+                                        <input type="submit" class="btn btn-success" value="Agendar" />
+                                    </form>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

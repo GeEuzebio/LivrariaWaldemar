@@ -1,0 +1,49 @@
+@model IEnumerable<LibraryApp.Models.Schedule>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Agendamentos</h1>
+<form asp-action="Search">
+    <input type="date" class="input-group mb-3" />
+    <input type="submit" class="btn btn-info" value="Pesquisar" />
+</form>
+<p>
+    <a asp-action="Create"><input type="button" value="Cadastrar Livro" class="btn btn-success" /></a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Horário
+            </th>
+            <th>
+                Turma
+            </th>
+            <th>
+                Professor
+            </th>
+            <th>
+                Dia do Agendamento
+            </th>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassHour)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.classRoom.GetDescription())
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Professor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Day)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
