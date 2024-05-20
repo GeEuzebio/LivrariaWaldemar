@@ -1,17 +1,25 @@
-@model IEnumerable<LibraryApp.Models.Schedule>
+@model LibraryApp.Models.Scheduling
 
 @{
     ViewData["Title"] = "Index";
+    Scheduling? schedule = ViewBag.Schedule;
 }
 
 <h1>Agendamentos</h1>
+<a asp-action="Create"><input type="button" value="Novo Agendamento" class="btn btn-success mb-3" /></a>
 <form asp-action="Search">
-    <input type="date" class="input-group mb-3" />
-    <input type="submit" class="btn btn-info" value="Pesquisar" />
+    <div class="col-md-4">
+        <h3>Pesquisar Agendamentos</h3>
+        @if (Model != null)
+        {
+            <input name="date" type="date" class="mb-3" value="@Model.Day!.Value.ToString("yyyy-MM-dd")"/>
+        } else
+        {
+            <input name="date" type="date" class="mb-3" value="@DateTime.Today.ToString("yyyy-MM-dd")"/>
+        }
+        <input type="submit" class="btn btn-info" value="Pesquisar" />
+    </div>
 </form>
-<p>
-    <a asp-action="Create"><input type="button" value="Cadastrar Livro" class="btn btn-success" /></a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -25,25 +33,51 @@
                 Professor
             </th>
             <th>
-                Dia do Agendamento
+                Data do Agendamento
             </th>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClassHour)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.classRoom.GetDescription())
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Professor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Day)
-            </td>
-        </tr>
-}
+        @if(Model != null)
+        {
+            @for (int i = 0; i < Model.Hours.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Model.Hours[i]
+                    </td>
+                    <td>
+                        @(Model.ClassRoom[i] != null ? Model.ClassRoom[i]!.GetDescription() : Model.ClassRoom[i])
+                    </td>
+                    <td>
+                        @(Model.Professor[i] != null ? Model.Professor[i]!.GetDescription() : Model.Professor[i])
+                    </td>
+                    <td>
+                        @Model.Day!.Value.ToString("dd/MM/yyyy")
+                    </td>
+                </tr>
+            }
+        } else if (schedule != null)
+        {
+            @for (int i = 0; i < schedule.Hours.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @schedule.Hours[i]
+                    </td>
+                    <td>
+                        @(schedule.ClassRoom[i] != null ? schedule.ClassRoom[i]!.GetDescription() : schedule.ClassRoom[i])
+                    </td>
+                    <td>
+                        @(schedule.Professor[i] != null ? schedule.Professor[i]!.GetDescription() : schedule.Professor[i])
+                    </td>
+                    <td>
+                        @schedule.Day!.Value.ToString("dd/MM/yyyy")
+                    </td>
+                </tr>
+            }
+        } else
+        {
+            <p style="text-align: center;">Nenhum agendamento para o dia!</p>
+        }
     </tbody>
 </table>

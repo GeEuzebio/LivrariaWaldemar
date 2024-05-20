@@ -3,9 +3,53 @@
 @{
     int i = ViewBag.Position;
 }
+<h2>Informações do Agendamento</h2>
+<div class="col-md-4">
+    <form asp-action="CreateSchedule">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input name="pos" type="number" value="@i" style="display:none;" />
+        <input name="day" type="date" value="@Model.Day!.Value.ToString("yyyy-MM-dd")" style="display:none;" />
+        <div class="form-group" >
+            <label class="control-label"><strong>Data do Agendamento</strong></label>
+            <p><strong>@Model.Day!.Value.Day/@Model.Day!.Value.Month/@Model.Day!.Value.Year</strong></p>
+            <span asp-validation-for="Day" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-4">
+            <label class="control-label"><strong>Horário</strong></label>
+            <text><strong>@Model.Hours[i]</strong></text>
+            <span asp-validation-for="Day" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Turma</label>
+            <select name="classRoom" class="form-select mb-3">
+                <option value="@ClassRoom._1A" selected>@ClassRoom._1A.GetDescription()</option>
+                <option value="@ClassRoom._1B">@ClassRoom._1B.GetDescription()</option>
+                <option value="@ClassRoom._1C">@ClassRoom._1C.GetDescription()</option>
+                <option value="@ClassRoom._1D">@ClassRoom._1D.GetDescription()</option>
+                <option value="@ClassRoom._2A">@ClassRoom._2A.GetDescription()</option>
+                <option value="@ClassRoom._2B">@ClassRoom._2B.GetDescription()</option>
+                <option value="@ClassRoom._2C">@ClassRoom._2C.GetDescription()</option>
+                <option value="@ClassRoom._3A">@ClassRoom._3A.GetDescription()</option>
+                <option value="@ClassRoom._3B">@ClassRoom._3B.GetDescription()</option>
+                <option value="@ClassRoom.EJA_A">@ClassRoom.EJA_A.GetDescription()</option>
+                <option value="@ClassRoom.EJA_B">@ClassRoom.EJA_B.GetDescription()</option>
+                <option value="@ClassRoom.EJA_C">@ClassRoom.EJA_C.GetDescription()</option>
+            </select>
+            <span asp-validation-for="ClassRoom" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Professor</label>
+            <select name="professor" class="form-select mb-3">
+                <option value="@Professionals.Laura">@Professionals.Laura.GetDescription()</option>
+                <option value="@Professionals.Rene">@Professionals.Rene.GetDescription()</option>
+            </select>
+        </div>
+        <input type="submit" class="btn btn-success" value="Realizar Agendamento">
+    </form>
+</div>
 
-<form asp-action="CreateSchedule">
-    <input type="date" value="@Model.Day!.Value.ToString("yyyy-MM-dd")" />
-    <input type="number" value="@i" />
-    <input type="submit" class="btn btn-success" value="Realizar Agendamento">
-</form>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
