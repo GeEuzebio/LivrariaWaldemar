@@ -24,6 +24,7 @@ namespace LibraryApp.Controllers
         }
 
         [HttpPost]
+        [Route("alunos/filtrar_aluno")]
         public async Task<IActionResult> FilterUser(string turma)
         {
             List<User> users = await _context.User.Where(u => u.Class == turma).ToListAsync();
@@ -31,12 +32,14 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Users
+        [Route("alunos")]
         public IActionResult Index()
         {
             return _signInManager.IsSignedIn(User) ? View() : Redirect("/Home");
         }
 
         // GET: Users/Details/5
+        [Route("alunos/detalhes")]
         public async Task<IActionResult> Details(string? id)
         {
             if (id == null)
@@ -55,6 +58,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Users/Create
+        [Route("alunos/cadastrar")]
         public IActionResult Create()
         {
             return _signInManager.IsSignedIn(User) ? View() : Redirect("/Home");
@@ -65,6 +69,7 @@ namespace LibraryApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("alunos/cadastrar")]
         public async Task<IActionResult> Create([Bind("UserId,Name,Email,PhoneNumber,Class,SIGE")] User user)
         {
             if (ModelState.IsValid)
@@ -77,6 +82,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Users/Edit/5
+        [Route("alunos/editar")]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -97,6 +103,7 @@ namespace LibraryApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("alunos/editar")]
         public async Task<IActionResult> Edit(long id, [Bind("UserId,Name,Email,PhoneNumber,Class,SIGE")] User user)
         {
             if (id != user.UserId)
@@ -128,6 +135,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Users/Delete/5
+        [Route("alunos/deletar")]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -148,6 +156,7 @@ namespace LibraryApp.Controllers
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("alunos/deletar")]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             var user = await _context.User.FindAsync(id);

@@ -64,8 +64,8 @@
                                     Indisponível
                                 </td>
                                 <td>
-                                    <input type="button" class="btn btn-warning" value="Editar Agendamento" />
-                                    <input type="button" class="btn btn-danger" value="Cancelar Agendamento" />
+                                    <a asp-action="Edit" asp-route-id="@Model.Id" asp-route-pos="@i"><input type="button" class="btn btn-warning" value="Editar Agendamento" /></a>
+                                    <a asp-action="Delete" asp-route-id="@Model.Id" asp-route-pos="@i"><input type="button" class="btn btn-danger" value="Cancelar Agendamento" /></a>
                                 </td>
                             }
                             else

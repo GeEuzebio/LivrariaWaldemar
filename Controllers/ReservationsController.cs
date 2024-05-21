@@ -24,12 +24,14 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Reservations
+        [Route("reservas")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Reservation.ToListAsync());
         }
 
         // GET: Reservations/Details/5
+        [Route("reservas/detalhes")]
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -48,6 +50,7 @@ namespace LibraryApp.Controllers
         }
 
         [HttpPost]
+        [Route("reservas/pesquisa")]
         public async Task<IActionResult> Search(long bookId, string userId)
         {
             var book = await _context.Book.FirstOrDefaultAsync(b => b.BookId == bookId);
@@ -57,6 +60,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Reservations/Create
+        [Route("reservas/cadastrar")]
         public async Task<IActionResult> Create(Book book)
         {
             if(book == null)
@@ -76,6 +80,7 @@ namespace LibraryApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("reservas/cadastrar")]
         public async Task<IActionResult> CreateReservation(string UserId, string BookId, string BookTitle, DateTime InitialDate, DateTime LastDate)
         {
             if (ModelState.IsValid)
@@ -101,6 +106,7 @@ namespace LibraryApp.Controllers
     }
 
         // GET: Reservations/Edit/5
+        [Route("reservas/editar")]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -121,6 +127,7 @@ namespace LibraryApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("reservas/editar")]
         public async Task<IActionResult> Edit(long id, [Bind("Id,UserId,BookId,InitialDate,LastDate")] Reservation reservation)
         {
             if (id != reservation.Id)
@@ -152,6 +159,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Reservations/Delete/5
+        [Route("reservas/deletar")]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -172,6 +180,7 @@ namespace LibraryApp.Controllers
         // POST: Reservations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("reservas/deletar")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var reservation = await _context.Reservation.FindAsync(id);

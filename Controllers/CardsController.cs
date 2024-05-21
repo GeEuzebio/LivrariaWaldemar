@@ -22,6 +22,7 @@ namespace LibraryApp.Controllers
             _context = context;
         }
 
+        [Route("carteirinha/pesquisar")]
         public async Task<IActionResult> Search(string name, string classroom)
         {
             User? user = await _context.User.FirstAsync(u => u.Name!.ToUpper().Trim() == name.ToUpper() && u.Class! == classroom);
@@ -32,12 +33,14 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Cards
+        [Route("carteirinha")]
         public IActionResult Index()
         {
             return View();
         }
 
         // GET: Cards/Details/5
+        [Route("carteirinha/detalhes")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

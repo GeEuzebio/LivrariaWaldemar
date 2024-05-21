@@ -24,12 +24,14 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Books
+        [Route("livros")]
         public async Task<IActionResult> Index()
         {
             return _signInManager.IsSignedIn(User) ? View(await _context.Book.ToListAsync()) : Redirect("/Home");
         }
 
         // GET: Books/Details/5
+        [Route("livros/detalhes")]
         public async Task<IActionResult> Details(string? id)
         {
             if (id == null)
@@ -48,6 +50,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Books/Create
+        [Route("livros/cadastrar")]
         public IActionResult Create()
         {
             return _signInManager.IsSignedIn(User) ? View() : Redirect("/Home");
@@ -58,6 +61,7 @@ namespace LibraryApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("livros/cadastrar")]
         public async Task<IActionResult> Create([Bind("BookId,Title,Genre,Author,Register")] Book book)
         {
             if (ModelState.IsValid)
@@ -70,6 +74,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Books/Edit/5
+        [Route("livros/editar")]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -90,6 +95,7 @@ namespace LibraryApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("livros/editar")]
         public async Task<IActionResult> Edit(long id, [Bind("BookId,Title,Genre,Author,Register")] Book book)
         {
             if (id != book.BookId)
@@ -120,6 +126,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Books/Delete/5
+        [Route("livros/deletar")]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -140,6 +147,7 @@ namespace LibraryApp.Controllers
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("livros/deletar")]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             var book = await _context.Book.FindAsync(id);

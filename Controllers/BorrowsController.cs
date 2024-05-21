@@ -29,6 +29,7 @@ namespace LibraryApp.Controllers
         }
 
         [HttpPost]
+        [Route("emprestimos/busca")]
         public async Task<IActionResult> Search(long bookId, string userId)
         {
             var book = await _context.Book.FirstOrDefaultAsync(b => b.BookId == bookId);
@@ -38,6 +39,7 @@ namespace LibraryApp.Controllers
         }
 
         [HttpPost]
+        [Route("emprestimos/busca_livro")]
         public async Task<IActionResult> SearchBook(string bookId)
         {
             var book = await _context.Book.FirstOrDefaultAsync(b => b.Register == bookId);
@@ -45,12 +47,14 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Borrows
+        [Route("emprestimos")]
         public async Task<IActionResult> Index()
         {
             return _signInManager.IsSignedIn(User) ? View(await _context.Borrow.ToListAsync()) : Redirect("/Home");
         }
 
         // GET: Borrows/Details/5
+        [Route("emprestimos/detalhes")]
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -69,6 +73,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Borrows/Create
+        [Route("emprestimos/cadastrar")]
         public async Task<IActionResult> Create(Book b)
         {
             User? user = await _context.User.FirstOrDefaultAsync(u => u.SIGE == b.UserId);
@@ -81,6 +86,7 @@ namespace LibraryApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("emprestimos/cadastrar")]
         public async Task<IActionResult> CreateBorrow(string UserId, string BookId, string BookTitle, DateTime InitialDate, DateTime LastDate)
         {
             if (ModelState.IsValid)
@@ -129,6 +135,7 @@ namespace LibraryApp.Controllers
 
         // GET: Borrows/Edit/5
         // Altered with objectiv of renew a borrow
+        [Route("emprestimos/editar")]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -149,6 +156,7 @@ namespace LibraryApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("emprestimos/editar")]
         public async Task<IActionResult> Edit(long id, [Bind("Id,BookId,UserId,InitialDate,LastDate")] Borrow borrow)
         {
             if (id != borrow.Id)
@@ -180,6 +188,7 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Borrows/Delete/5
+        [Route("emprestimos/deletar")]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -200,6 +209,7 @@ namespace LibraryApp.Controllers
         // POST: Borrows/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("emprestimos/deletar")]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             var borrow = await _context.Borrow.FindAsync(id);
@@ -233,6 +243,7 @@ namespace LibraryApp.Controllers
             return _signInManager.IsSignedIn(User) ? RedirectToAction(nameof(Index)) : Redirect("/Home");
         }
 
+        [Route("emprestimos/reservar")]
         public async Task<IActionResult> Reserve(long? Id)
         {
             if(Id == null)

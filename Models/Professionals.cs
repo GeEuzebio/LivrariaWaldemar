@@ -7,7 +7,9 @@ namespace LibraryApp.Models
         [Description("Renê")]
         Rene,
         [Description("Laura")]
-        Laura
+        Laura,
+        [Description("ONHB")]
+        ONHB
     }
 }
 public static class EnumExtensions

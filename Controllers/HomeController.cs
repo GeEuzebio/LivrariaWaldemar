@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using LibraryApp.Services;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 
 namespace LibraryApp.Controllers
 {
@@ -37,6 +38,7 @@ namespace LibraryApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("pesquisa")]
         public async Task<IActionResult> Search(string title, string filter)
         {
             if(filter == "Titulo")
@@ -79,6 +81,23 @@ namespace LibraryApp.Controllers
         {
             Borrow? borrow = await _context.Borrow.FirstOrDefaultAsync(b => b.BookId == id);
             return _signInResult.IsSignedIn(User) ? Redirect($"/Borrows/Delete/{borrow!.Id}") : Redirect("/Home");
+        }
+
+        [Route("consulta_agendamentos")]
+        public async Task<IActionResult> Schedules()
+        {
+            DateTime toDay = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            Scheduling? schedule = await _context.Scheduling.FirstOrDefaultAsync(d => d.Day == toDay.ToUniversalTime());
+            ViewBag.Schedule = schedule;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("consulta_agendamentos/consulta_por_data")]
+        public async Task<IActionResult> Search(DateTime date)
+        {
+            return View(nameof(Schedules), await _context.Scheduling.FirstOrDefaultAsync(d => d.Day == date.ToUniversalTime()));
         }
 
         public IActionResult Privacy()
