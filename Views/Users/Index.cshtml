@@ -18,20 +18,13 @@
     <div class="row" style="width: 30%;">
         <div class="col">
             <label name="turma">Turma</label>
-            <select class="custom-select" name="turma" style="padding: 2px;">
-                <option value="1A">1º Ano A</option>
-                <option value="1B">1º Ano B</option>
-                <option value="1C">1º Ano C</option>
-                <option value="1D">1º Ano D</option>
-                <option value="2A">2º Ano A</option>
-                <option value="2B">2º Ano B</option>
-                <option value="2C">2º Ano C</option>
-                <option value="3A">3º Ano A</option>
-                <option value="3B">3º Ano B</option>
-                <option value="EJAA">EJA A</option>
-                <option value="EJAB">EJA B</option>
-                <option value="EJAC">EJA C</option>
+            <select name="turma" class="form-select mb-3">
+                @foreach (ClassRoom item in Enum.GetValues(typeof(ClassRoom)))
+                {
+                    <option value="@item">@item.GetDescription()</option>
+                }
             </select>
+        </div>
         </div>
         <input type="submit" value="Pesquisar" class="btn btn-info" style="width: 100px;"/>
     </div>
