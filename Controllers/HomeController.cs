@@ -95,7 +95,7 @@ namespace LibraryApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("consulta_agendamentos/consulta_por_data")]
-        public async Task<IActionResult> Search(DateTime date)
+        public async Task<IActionResult> SearchSchedules(DateTime date)
         {
             return View(nameof(Schedules), await _context.Scheduling.FirstOrDefaultAsync(d => d.Day == date.ToUniversalTime()));
         }
