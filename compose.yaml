@@ -1,6 +1,6 @@
 services:
   server:
-    image: geeuzebio/wflibrary:schedules
+    image: geeuzebio/wflibrary:schedulesnew
     container_name: library
     ports:
       - 8080:8080

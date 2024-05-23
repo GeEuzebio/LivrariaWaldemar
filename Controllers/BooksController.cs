@@ -98,10 +98,6 @@ namespace LibraryApp.Controllers
         [Route("livros/editar")]
         public async Task<IActionResult> Edit(long id, [Bind("BookId,Title,Genre,Author,Register")] Book book)
         {
-            if (id != book.BookId)
-            {
-                return _signInManager.IsSignedIn(User) ? NotFound() : Redirect("/Home");
-            }
             if (ModelState.IsValid)
             {
                 try
