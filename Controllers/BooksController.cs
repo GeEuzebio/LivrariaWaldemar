@@ -27,6 +27,14 @@ namespace LibraryApp.Controllers
         [Route("livros")]
         public async Task<IActionResult> Index()
         {
+            return _signInManager.IsSignedIn(User) ? View(await _context.Book
+                .OrderByDescending(b => b.BookId)
+                .Take(5)
+                .ToListAsync()) : Redirect("/Home");
+        }
+        [Route("livros/livros_cadastrados")]
+        public async Task<IActionResult> RegistredBooks()
+        {
             return _signInManager.IsSignedIn(User) ? View(await _context.Book.ToListAsync()) : Redirect("/Home");
         }
 
